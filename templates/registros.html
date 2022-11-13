@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}
+registros
+{% endblock %}
+
+{% block content %}
+
+<div class="paginate">
+	<div class="items">
+		{% for row in data %}<div>
+			<div class="card">
+				<div>
+					<p class="id-">ID : {{row[0]}}</p>
+				</div>
+				<div>
+					<h2>{{row[1]}}:</h2>
+					<p>{{row[4]}} - {{row[3]}}</p>
+				</div>
+				<div>
+					<p><b> {{row[2]}} </b></p>
+				</div>
+			</div>
+		</div>{% endfor %}
+
+	</div>
+
+
+	<div class="pager">
+		<a style="cursor: pointer;">
+			<div class="firstPage">&laquo;</div>
+			<div class="previousPage">&lsaquo;</div>
+			<div class="pageNumbers"></div>
+			<div class="nextPage">&rsaquo;</div>
+			<div class="lastPage">&raquo;</div>
+	</div>
+</div>
+
+{% endblock %}

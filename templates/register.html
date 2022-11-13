@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block title %}
+Registrarse
+{% endblock %}
+
+{% block content %}
+
+<section class="user">
+    <div class="user_options-container">
+        <div class="user_options-text">
+            <div class="user_options-unregistered">
+                <h2 class="user_unregistered-title">Nota importante de registro</h2>
+                <p class="user_unregistered-text">Un usuario nuevo puede acceder a todo el sistema del camping por lo
+                    que es recomendable pedir una autorización previamente.</p>
+            </div>
+        </div>
+
+        <div class="user_options-forms" id="user_options-forms">
+            <div class="user_forms-login">
+                <h2 class="forms_title">REGISTRARSE</h2>
+                <form class="forms_form" method="POST" action="{{ url_for('register') }}">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <fieldset class="forms_fieldset">
+                        <div class="forms_field">
+                            <input type="text" name="nombrecomp" placeholder="Nombre y apellido completo"
+                                class="forms_field-input" required />
+                        </div>
+                        <div class="forms_field">
+                            <input type="text" name="usuario" placeholder="Nombre de usuario" class="forms_field-input"
+                                required />
+                        </div>
+                        <div class="forms_field">
+                            <input type="password" name="contrasenia" placeholder="Contraseña" class="forms_field-input"
+                                required />
+                        </div>
+                    </fieldset>
+                    <div class="forms_buttons">
+                        <input type="submit" value="Registrar" class="forms_buttons-action">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+</section>
+<table class="rwd-table" id="tabla_datos">
+    <tr>
+        <th>ID</th>
+        <th>Nombre Completo</th>
+        <th>Usuario</th>
+
+    </tr>
+    <tr>
+        <td data-th="ID">1</td>
+        <td data-th="Nombre Completo">Adventure, Sci-fi</td>
+        <td data-th="Usuario">1977</td>
+
+    </tr>
+    <tr>
+        <td data-th="ID">2</td>
+        <td data-th="Nombre Completo">"Comedy"</td>
+        <td data-th="Usuario">1986</td>
+
+    </tr>
+    <tr>
+        <td data-th="ID">3</td>
+        <td data-th="Nombre Completo">Comedy, Drama</td>
+        <td data-th="Usuario">1973</td>
+
+    </tr>
+</table>
+
+<script>
+
+$("tr").click(function(e) {
+    console.log(e.target.innerHTML);
+});
+
+</script>
+{% endblock %}

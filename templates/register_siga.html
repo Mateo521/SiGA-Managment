@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}
+Registro SIGA
+{% endblock %}
+
+{% block content %}
+
+<section class="user">
+    <div class="user_options-container">
+        <div class="user_options-text">
+            <div class="user_options-unregistered">
+                <h2 class="user_unregistered-title">REGISTRO PARA SIGA</h2>
+                <p class="user_unregistered-text">Al registrarse, se añade un nuevo usuario para acceder a el sistema de gestion del Camping.</p>
+            </div>
+        </div>
+
+        <div class="user_options-forms" id="user_options-forms">
+            <div class="user_forms-login">
+                <h2 class="forms_title">REGISTRARSE</h2>
+                <form class="forms_form" method="POST" action="{{ url_for('register_siga') }}">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <fieldset class="forms_fieldset">
+
+                        <div class="forms_field">
+                            <input type="text" name="usuario" placeholder="Nombre de usuario" class="forms_field-input"
+                                required />
+                        </div>
+                        <div class="forms_field">
+                            <input type="password" name="contrasenia" placeholder="Contraseña" class="forms_field-input"
+                                required />
+                        </div>
+                        <div class="forms_field">
+
+                            <input list="privilegios" type="" name="rol" placeholder="Ingrese el privilegio"  class="forms_field-input"
+                                required>
+                            <datalist id="privilegios">
+                                <option value="Administrador" />
+                                <option value="Personal/Encargado" />
+                                <option value="Cajero" />
+                            </datalist>
+                        </div>
+                    </fieldset>
+                    <div class="forms_buttons">
+                        <input type="submit" value="Registrar" class="forms_buttons-action">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+</section>
+
+{% endblock %}
