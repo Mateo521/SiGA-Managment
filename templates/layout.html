@@ -14,10 +14,12 @@
 
 	<script src="https://kit.fontawesome.com/628c8d2499.js" crossorigin="anonymous"></script>
 
+
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="static/pagination/paginga.jquery.js"></script>
-	<link rel="stylesheet" href="https://unpkg.com/css-pro-layout@1.1.0/dist/css/css-pro-layout.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css">
+	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css-pro-layout.css') }}">
+
 </head>
 
 <body>
@@ -53,12 +55,12 @@
 								<div class="sub-menu-list">
 									<ul>
 										<li class="menu-item">
-											<a href="/register">
+											<a href="/register#agregar_usuario">
 												<span class="menu-title">Agregar un usuario web</span>
 											</a>
 										</li>
 										<li class="menu-item">
-											<a href="/register">
+											<a href="/register#eliminar_usuario">
 												<span class="menu-title">Eliminar un usuario web</span>
 											</a>
 										</li>
@@ -69,12 +71,12 @@
 											<div class="sub-menu-list">
 												<ul>
 													<li class="menu-item">
-														<a href="/register_siga">
+														<a href="/register_siga#alta_de_usuario">
 															<span class="menu-title">Alta de usuarios para SiGA</span>
 														</a>
 													</li>
 													<li class="menu-item">
-														<a href="/register_siga">
+														<a href="/register_siga#baja_de_usuario">
 															<span class="menu-title">Baja de usuarios para SiGA</span>
 														</a>
 													</li>
@@ -85,18 +87,19 @@
 														<div class="sub-menu-list">
 															<ul>
 																<li class="menu-item">
-																	<a href="#">
+																	<a href="/register_siga?rol=Administrador">
 																		<span class="menu-title">Administrador</span>
 																	</a>
 																</li>
 																<li class="menu-item">
-																	<a href="#">
+																	<a href="/register_siga?rol=Cajero">
 																		<span class="menu-title">Cajero</span>
 																	</a>
 																</li>
 																<li class="menu-item">
-																	<a href="#">
-																		<span class="menu-title">Personal/Encargado</span>
+																	<a href="/register_siga?rol=Personal">
+																		<span
+																			class="menu-title">Personal/Encargado</span>
 																	</a>
 
 																</li>
@@ -114,23 +117,23 @@
 									<span class="menu-icon">
 										<i class="ri-bar-chart-2-fill"></i>
 									</span>
-									<span class="menu-title">Charts</span>
+									<span class="menu-title">A</span>
 								</a>
 								<div class="sub-menu-list">
 									<ul>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">Pie chart</span>
+												<span class="menu-title">a</span>
 											</a>
 										</li>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">Line chart</span>
+												<span class="menu-title">b</span>
 											</a>
 										</li>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">Bar chart</span>
+												<span class="menu-title">c</span>
 											</a>
 										</li>
 									</ul>
@@ -141,27 +144,36 @@
 									<span class="menu-icon">
 										<i class="ri-shopping-cart-fill"></i>
 									</span>
-									<span class="menu-title">E-commerce</span>
+									<span class="menu-title">B</span>
 								</a>
 								<div class="sub-menu-list">
 									<ul>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">Products</span>
+												<span class="menu-title">a</span>
 											</a>
 										</li>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">Orders</span>
+												<span class="menu-title">b</span>
 											</a>
 										</li>
 										<li class="menu-item">
 											<a href="#">
-												<span class="menu-title">credit card</span>
+												<span class="menu-title">c</span>
 											</a>
 										</li>
 									</ul>
 								</div>
+							</li>
+
+							<li class="menu-item">
+								<a href="#">
+									<span class="menu-icon">
+										<i class="ri-calendar-fill"></i>
+									</span>
+									<span class="menu-title">C</span>
+								</a>
 							</li>
 							<li class="menu-item sub-menu">
 								<a href="#">
@@ -200,17 +212,17 @@
 								<div class="sub-menu-list">
 									<ul>
 										<li class="menu-item">
-											<a href="#">
+											<a href="/tarifas?mod=Acampantes">
 												<span class="menu-title">Modificar tarifa acampante</span>
 											</a>
 										</li>
 										<li class="menu-item">
-											<a href="#">
+											<a href="/tarifas?mod=Por_dia">
 												<span class="menu-title">Modificar tarifa persona por día</span>
 											</a>
 										</li>
 										<li class="menu-item">
-											<a href="#">
+											<a href="/tarifas?mod=Cabañas">
 												<span class="menu-title">Modificar tarifa para cabaña</span>
 											</a>
 										</li>
@@ -225,14 +237,7 @@
 									<span class="menu-title">Registros de Auditoría</span>
 								</a>
 							</li>
-							<li class="menu-item">
-								<a href="#">
-									<span class="menu-icon">
-										<i class="ri-calendar-fill"></i>
-									</span>
-									<span class="menu-title">Calendar</span>
-								</a>
-							</li>
+
 							<li class="menu-item">
 								<a href="/">
 									<span class="menu-icon">
@@ -253,11 +258,13 @@
 		<div class="layout">
 			<header class="header">
 				<a id="btn-collapse" href="#">
-					<i class="ri-menu-line ri-xl"></i>
+					<i class="ri-menu-line ri-xl" style="color:white;"></i>
 				</a>
 				<a id="btn-toggle" href="#" class="sidebar-toggler break-point-lg">
-					<i class="ri-menu-line ri-xl"></i>
+					<i class="ri-menu-line ri-xl" style="color:white;"></i>
 				</a>
+
+				<h3>Hola, {{current_user.fullname}}</h3>
 			</header>
 
 
@@ -330,8 +337,7 @@
 
 
 	</div>
-
-	<script src="https://unpkg.com/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script type="text/javascript" src="static/popper.min.js"></script>
 	<script>
 
 		function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } const ANIMATION_DURATION = 300;
@@ -610,6 +616,13 @@
 				scrollToTop: false
 			});
 		});
+
+
+
+
+
+
+
 	</script>
 </body>
 

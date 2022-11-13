@@ -9,14 +9,15 @@ Registro SIGA
     <div class="user_options-container">
         <div class="user_options-text">
             <div class="user_options-unregistered">
-                <h2 class="user_unregistered-title">REGISTRO PARA SIGA</h2>
-                <p class="user_unregistered-text">Al registrarse, se añade un nuevo usuario para acceder a el sistema de gestion del Camping.</p>
+                <h2 class="user_unregistered-title" style="color:white !important;">REGISTRO PARA SIGA</h2>
+                <p class="user_unregistered-text">Al registrarse, se añade un nuevo usuario para acceder a el sistema de
+                    gestion del Camping.</p>
             </div>
         </div>
 
         <div class="user_options-forms" id="user_options-forms">
             <div class="user_forms-login">
-                <h2 class="forms_title">REGISTRARSE</h2>
+                <h2 class="forms_title">REGISTRAR USUARIO PARA SIGA</h2>
                 <form class="forms_form" method="POST" action="{{ url_for('register_siga') }}">
                     <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                     <fieldset class="forms_fieldset">
@@ -31,8 +32,8 @@ Registro SIGA
                         </div>
                         <div class="forms_field">
 
-                            <input list="privilegios" type="" name="rol" placeholder="Ingrese el privilegio"  class="forms_field-input"
-                                required>
+                            <input id="pRV" list="privilegios" type="" name="rol" placeholder="Ingrese el privilegio"
+                                class="forms_field-input" required>
                             <datalist id="privilegios">
                                 <option value="Administrador" />
                                 <option value="Personal/Encargado" />
@@ -58,5 +59,22 @@ Registro SIGA
 
 
 </section>
+<script>
+
+    function populateFields() {
+
+
+        const querystring = window.location.search
+        const params = new URLSearchParams(querystring)
+
+        $('#pRV').val(params.get('rol'));
+
+    }
+
+    $(document).ready(function () {
+        populateFields();
+    });
+
+</script>
 
 {% endblock %}

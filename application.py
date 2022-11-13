@@ -104,6 +104,11 @@ def register_siga():
     return render_template("register_siga.html")
 
 
+@app.route('/tarifas')
+@login_required
+def tarifas():
+    return render_template("tarifas.html")
+
 @app.route('/protected')
 @login_required
 def protected():
