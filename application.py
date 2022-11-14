@@ -16,6 +16,11 @@ from models.entities.User import User
 app = Flask(__name__)
 csrf=CSRFProtect(app)
 app.config['TESTING'] = False
+
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+
+
 db = MySQL(app)
 login_manager_app = LoginManager(app)
 
@@ -30,19 +35,21 @@ def status_401(error):
 def status_404(error):
     return "<h1>Pagina no encontrada.</h1>"
 
-
+ 
 @app.route('/')
 @login_required
 def index():
     return  redirect(url_for("home"))
 
-
+ 
 def conector(a=1):
     cur = db.connection.cursor()
     if(a == 1):
         cur.execute("SELECT * FROM registros ORDER BY id DESC")
     if(a == 2):
         cur.execute("SELECT * FROM tarifas WHERE id = '8'")
+    if(a == 3):
+        cur.execute("SELECT * FROM usuarios_web")
     return cur.fetchall()
 
 
@@ -52,7 +59,7 @@ def conector(a=1):
 def home():
     
 
-    
+
     return render_template('index.html', data = conector(1), tarifa = conector(2))
 
 @app.route('/logout')
@@ -64,6 +71,7 @@ def logout():
 @app.route('/register' , methods=['GET','POST'])
 @login_required
 def register():
+
     if request.method == "POST":
         cur = db.connection.cursor()
         usuario = request.form['usuario']
@@ -71,7 +79,7 @@ def register():
         contrasenia = request.form['contrasenia']
         cur.execute('INSERT INTO usuarios_web (usuario, nombrecomp, contrasenia) VALUES (%s,%s,%s)' , (usuario,nombrecomp,generate_password_hash(contrasenia)))
         db.connection.commit()
-    return render_template("register.html")
+    return render_template("register.html" ,data = conector(3))
 
 
 @app.route('/registros')
@@ -89,7 +97,7 @@ def register_siga():
         cur = db.connection.cursor()
         usuario = request.form['usuario']
         contrasenia = request.form['contrasenia']
-        privilegio = request.form['rol']
+        privilegio = request.form['rol'] 
         rol = 3
         if(privilegio == "Administrador"):
             rol = 1
@@ -109,6 +117,32 @@ def register_siga():
 def tarifas():
     return render_template("tarifas.html")
 
+
+@app.route('/eliminar_web' , methods = ['GET', 'POST'])
+def eliminar_web():
+
+
+    if request.method == "POST":
+            cur = db.connection.cursor()
+            usuario = request.form['usuario']
+            nombrecomp = request.form['nombrecomp']
+
+
+            
+            if(session['username'] == usuario):
+                flash("Error, no se puede eliminar a alguien que este usando el sistema.")
+            elif(usuario != "" or nombrecomp != ""):
+                cur.execute('DELETE FROM usuarios_web WHERE usuario = (%s) AND nombrecomp = (%s)' , (usuario,nombrecomp))
+                db.connection.commit()
+                flash("Eliminado con exito")
+            else:
+                flash("Porfavor complete todos los campos con la tabla de abajo.")
+                
+
+    return redirect(url_for("register"))
+
+
+
 @app.route('/protected')
 @login_required
 def protected():
@@ -116,9 +150,9 @@ def protected():
 
 @app.route('/login',methods=['GET','POST'])
 def login():
-    if request.method == "POST":
+    if request.method == "POST": 
         username = request.form['username']
-
+        session['username'] = username
         password = request.form['password']
         
         user = User(0, username,0,password)

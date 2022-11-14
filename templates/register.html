@@ -16,7 +16,7 @@ Registrarse
         </div>
 
         <div class="user_options-forms" id="user_options-forms">
-            <div class="user_forms-login">
+            <div class="user_forms-login" id="agregar_usuario">
                 <h2 class="forms_title">REGISTRAR NUEVO USUARIO</h2>
                 <form class="forms_form" method="POST" action="{{ url_for('register') }}">
                     <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
@@ -45,26 +45,90 @@ Registrarse
     </div>
 
 
+</section>
 
 
 
 
+
+
+<section class="user" id="eliminar_usuario">
+    <div class="user_options-container" style="    height: 450px;">
+        <div class="user_options-text" style="justify-content: flex-end;">
+            <div class="user_options-unregistered">
+                <h2 class="user_unregistered-title">Nota importante de registro</h2>
+                <p class="user_unregistered-text">Al eliminar un usuario, el mismo no podra acceder mas al sistema del
+                    camping de manera remota.</p>
+            </div>
+        </div>
+
+        <div class="user_options-forms" id="user_options-forms-2">
+            <div class="user_forms-login">
+                <h2 class="forms_title">ELIMINAR USUARIO</h2>
+                <form class="forms_form" method="POST" action="{{ url_for('eliminar_web') }}">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <fieldset class="forms_fieldset">
+                        <div class="forms_field">
+                            <input readonly id="item-1" type="text" name="nombrecomp"
+                                placeholder="Nombre y apellido completo" class="forms_field-input" required />
+                        </div>
+                        <div class="forms_field">
+                            <input readonly id="item-2" type="text" name="usuario" placeholder="Nombre de usuario"
+                                class="forms_field-input" required />
+                        </div>
+                        <div class="forms_field">
+                            <input readonly id="item-3" type="text" name="id" placeholder="ID de usuario"
+                                class="forms_field-input" required />
+                        </div>
+
+                    </fieldset>
+                    <div class="forms_buttons">
+                        <input type="submit" value="Eliminar Usuario" class="forms_buttons-action">
+
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <h4 style="color:red;">{{ message }}</h4>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
 
 
 </section>
+
+
+
+
+
+
+
+
+
 <table class="rwd-table" id="tabla_datos">
+
+    <h3>Eliga el usuario al que desea eliminar: (Tabla de usuarios registrados)</h3>
     <tr>
         <th>ID</th>
         <th>Nombre Completo</th>
         <th>Usuario</th>
 
     </tr>
+    {%for row in data %}
     <tr>
-        <td data-th="ID">1</td>
-        <td data-th="Nombre Completo">Adventure, Sci-fi</td>
-        <td data-th="Usuario">1977</td>
+        <td data-th="ID">{{row[0]}}</td>
+        <td data-th="Nombre Completo" class="item-1">{{row[2]}}</td>
+        <td data-th="Usuario" class="item-2">{{row[1]}}</td>
 
     </tr>
+    {%endfor%}
+    <!-- 
     <tr>
         <td data-th="ID">2</td>
         <td data-th="Nombre Completo">"Comedy"</td>
@@ -77,13 +141,91 @@ Registrarse
         <td data-th="Usuario">1973</td>
 
     </tr>
+ -->
+
 </table>
+
+<div id="myDiv"></div>
 
 <script>
 
-$("tr").click(function(e) {
-    console.log(e.target.innerHTML);
-});
+
+
+    /*
+        $(".item-1").click(function (e) {
+            $('#item-1').val(e.target.innerHTML);
+        });
+        $(".item-2").click(function (e) {
+            $('#item-2').val(e.target.innerHTML);
+        });
+    */
+
+    // $('#pRV').val(tra);
+
+
+
+
+    // JavaScript Code to Highlight any
+    // row in the given table.
+    document.getElementById('tabla_datos')
+        .addEventListener('click', function (item) {
+
+            // To get tr tag 
+            // In the row where we click
+            var row = item.path[1];
+
+            var row_value = "";
+
+
+
+            $('#item-1').val(row.cells[1].innerHTML);
+            $('#item-2').val(row.cells[2].innerHTML);
+            $('#item-3').val(row.cells[0].innerHTML);
+
+
+            // Toggle the highlight
+            if (row.classList.contains('highlight'))
+                row.classList.remove('highlight');
+            else
+                row.classList.add('highlight');
+        });
+
+
+    function populateFields() {
+
+
+        const querystring = window.location.search
+        const params = new URLSearchParams(querystring)
+
+        return params.get('e');
+
+    }
+
+    $(document).ready(function () {
+        if (populateFields() == "eliminar_usuario") {
+
+            console.log(populateFields());
+
+            const element = document.getElementById("eliminar_usuario");
+
+            element.scrollIntoView();
+
+        }
+        if (populateFields() == "agregar_usuario") {
+
+            console.log(populateFields());
+
+            const element = document.getElementById("agregar_usuario");
+
+            element.scrollIntoView();
+
+        }
+
+
+
+
+    });
+
 
 </script>
 {% endblock %}
