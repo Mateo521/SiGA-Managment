@@ -9,6 +9,8 @@
 
 		{% endblock %}
 	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 
@@ -73,12 +75,12 @@
 											<div class="sub-menu-list">
 												<ul>
 													<li class="menu-item">
-														<a href="/register_siga#alta_de_usuario">
+														<a href="/register_siga?e=alta_de_usuario">
 															<span class="menu-title">Alta de usuarios para SiGA</span>
 														</a>
 													</li>
 													<li class="menu-item">
-														<a href="/register_siga#baja_de_usuario">
+														<a href="/register_siga?e=baja_de_usuario">
 															<span class="menu-title">Baja de usuarios para SiGA</span>
 														</a>
 													</li>
@@ -282,64 +284,11 @@
 
 
 
-	<!-- 
-	<nav>
-
-		<h1>Bienvenido, {{current_user.fullname}}</h1>
-
-
-		<div class="menu">
-			<h2><a href="/registros"> Registro de Auditoria</a></h2>
-			<h2><a href="/home"> Inicio</a></h2>
-			<h2><a href=""></a>Control de usuarios</h2>
-		</div>
-		<a href="{{url_for('logout')}}">
-			<div class="logout">
-
-				<p>Salir del sistema</p>
-
-				<img src="static/img/logout.svg" alt="">
-			</div>
-		</a>
-
-	</nav>
-
- -->
-
-
-
-
-
-	<!--  
-
-	<div class="container">
-
-		<img src="static/img/asdads.jpg" alt="">
-	
-		<div class="content1">
-			{% for row in data %}
-			<div class="card">
-				<div>
-					<h1 class="id-">ID : {{row[0]}}</h1>
-				</div>
-				<div>
-					<h1>{{row[1]}}:</h1>
-					<h2>{{row[4]}} - {{row[3]}}</h2>
-				</div>
-				<div>
-					<p>{{row[2]}}</p>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-
- -->
-
 	</div>
 
 
 	</div>
-	
+
 	<script type="text/javascript" src="static/popper.min.js"></script>
 	<script>
 
@@ -623,7 +572,7 @@
 
 
 
-	
+
 
 
 

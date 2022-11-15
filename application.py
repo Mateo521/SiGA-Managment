@@ -4,6 +4,8 @@ from conexion import config
 from flask_login import LoginManager,login_user,logout_user,login_required
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash
+from datetime import datetime
+
 
 #MODELS:
 from models.ModelUser import ModelUser
@@ -42,14 +44,27 @@ def index():
     return  redirect(url_for("home"))
 
  
-def conector(a=1):
+def conector(a=0):
+    fecha_actual = '2022-11-14'#datetime.today().strftime('%Y-%m-%d')
     cur = db.connection.cursor()
+    if(a == 0):
+        return 0
     if(a == 1):
         cur.execute("SELECT * FROM registros ORDER BY id DESC")
     if(a == 2):
         cur.execute("SELECT * FROM tarifas WHERE id = '8'")
     if(a == 3):
         cur.execute("SELECT * FROM usuarios_web")
+    if(a == 4):
+        cur.execute("SELECT * FROM usuarios")
+    if(a == 5):
+        cur.execute("SELECT * FROM caja_abierta ORDER BY id DESC")
+    if(a == 6):
+        cur.execute("SELECT * FROM caja_cerradas ORDER BY id DESC")
+    if(a == 7):
+        cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fecha_actual])
+
+
     return cur.fetchall()
 
 
@@ -57,9 +72,6 @@ def conector(a=1):
 @app.route('/home')
 @login_required
 def home():
-    
-
-
     return render_template('index.html', data = conector(1), tarifa = conector(2))
 
 @app.route('/logout')
@@ -85,10 +97,7 @@ def register():
 @app.route('/registros')
 @login_required
 def registros():
-    cur = db.connection.cursor()
-    cur.execute("SELECT * FROM registros ORDER BY id DESC")
-    data = cur.fetchall()
-    return render_template("registros.html" ,  data = data)
+    return render_template("registros.html" ,  data = conector(1))
 
 @app.route('/register_siga' , methods = ['GET', 'POST'])
 @login_required
@@ -104,18 +113,94 @@ def register_siga():
         elif(privilegio == "Cajero"):
             rol = 2
 
-
+        
         cur.execute('INSERT INTO usuarios (usuario, password, privilegios) VALUES (%s,%s,%s)' , (usuario,contrasenia, rol))
         db.connection.commit()
 
+        
 
-    return render_template("register_siga.html")
+    return render_template("register_siga.html" , data = conector(4))
+
+
+@app.route('/tarifas_n' , methods = ['GET', 'POST'])
+@login_required
+def tarifas_n():
+
+
+    if request.method == "POST":
+
+        cur = db.connection.cursor()
+
+        noacampanteparticular = request.form["particulares_dia"]
+        noacampantealumno = request.form["alumno_dia"]
+        noacampanteaportante = request.form["aportantes_dia"]
+            
+        if(noacampanteparticular!=""):
+            print("consulto no acampante particular")
+            cur.execute('UPDATE tarifas SET particular_d = (%s) WHERE id = 8' , [noacampanteparticular])
+        if(noacampantealumno!=""):
+            print("consulto no acampante alumno")
+            cur.execute('UPDATE tarifas SET alumno_d = (%s) WHERE id = 8' , [noacampantealumno])
+        if(noacampanteaportante!=""):
+            print("consulto no acampante aportante")
+            cur.execute('UPDATE tarifas SET aportante_d = (%s) WHERE id = 8' , [noacampanteaportante])
+
+
+        db.connection.commit()
+    return redirect(url_for("tarifas"))
+
+
+@app.route('/tarifas_a' , methods = ['GET', 'POST'])
+@login_required
+def tarifas_a():
+
+
+    if request.method == "POST":
+
+        cur = db.connection.cursor()
+
+        acampanteparticular = request.form["particulares_acampantes"]
+        acampantealumno = request.form["alumnos_acampantes"]
+        acampanteaportante = request.form["aportantes_acampantes"]
+        if(acampanteparticular!=""):
+            cur.execute("UPDATE tarifas SET tarifa_particular = (%s) WHERE id = '8'" , [acampanteparticular])
+        if(acampantealumno!=""):
+            cur.execute("UPDATE tarifas SET tarifa_alumno = (%s) WHERE id = '8'" , [acampantealumno])
+        if(acampanteaportante!=""):
+            cur.execute("UPDATE tarifas SET tarifa_aportante = (%s) WHERE id = '8'" , [acampanteaportante])
+        db.connection.commit()
+    return redirect(url_for("tarifas"))
+
 
 
 @app.route('/tarifas')
 @login_required
 def tarifas():
-    return render_template("tarifas.html")
+    return render_template("tarifas.html", tarifa = conector(2))
+
+
+
+@app.route('/recaudaciones')
+@login_required
+def recaudaciones():
+    return render_template("recaudaciones.html", caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7))
+
+
+@app.route('/eliminar' , methods = ['GET', 'POST'])
+def eliminar():
+
+    if request.method == "POST":
+            cur = db.connection.cursor()
+            id = request.form['ID']
+            if(id!=""):
+                cur.execute('DELETE FROM usuarios WHERE id = (%s)' , [id])
+                db.connection.commit()
+                flash("Eliminado con exito" , "correcto")
+            else:
+                flash("Porfavor complete todos los campos con la tabla de abajo.", "error")
+
+    return redirect(url_for("register_siga"))
+
 
 
 @app.route('/eliminar_web' , methods = ['GET', 'POST'])
@@ -130,13 +215,13 @@ def eliminar_web():
 
             
             if(session['username'] == usuario):
-                flash("Error, no se puede eliminar a alguien que este usando el sistema.")
+                flash("Error, no se puede eliminar a alguien que este usando el sistema." , "error")
             elif(usuario != "" or nombrecomp != ""):
                 cur.execute('DELETE FROM usuarios_web WHERE usuario = (%s) AND nombrecomp = (%s)' , (usuario,nombrecomp))
                 db.connection.commit()
-                flash("Eliminado con exito")
+                flash("Eliminado con exito" , "correcto")
             else:
-                flash("Porfavor complete todos los campos con la tabla de abajo.")
+                flash("Porfavor complete todos los campos con la tabla de abajo." , "error")
                 
 
     return redirect(url_for("register"))

@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}
-Registro SIGA
+Tarifas
 {% endblock %}
 
 {% block content %}
@@ -8,47 +8,193 @@ Registro SIGA
 
 
 <div class="background">
-    <div class="container-4">
-      <div class="panel pricing-table">
-        
-        <div class="pricing-plan">
-          <img src="https://s22.postimg.cc/8mv5gn7w1/paper-plane.png" alt="" class="pricing-img">
-          <h2 class="pricing-header">Acampantes</h2>
-          <ul class="pricing-features">
-            <li class="pricing-features-item">PRECIO ACTUAL Alumnos</li>
-            <li class="pricing-features-item">PRECIO ACTUAL Personal Universitario</li>
-            <li class="pricing-features-item">PRECIO ACTUAL Particulares</li>
+  <div class="container-4">
+    <div class="panel pricing-table">
 
+      <div class="pricing-plan" id="A">
+
+        <form action="{{ url_for('tarifas_a') }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+          <h2 class="pricing-header">Acampantes</h2>
+
+          <ul class="pricing-features">
+            <li class="pricing-features-item">PRECIO ACTUAL Alumnos: ${{tarifa[0][2]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="alumnos_acampantes" min="0" id="a">
+
+                <p>$</p>
+              </div>
+            </div>
+            <li class="pricing-features-item">PRECIO ACTUAL Aportantes: ${{tarifa[0][0]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="aportantes_acampantes" min="0"  id="b">
+
+                <p>$</p>
+              </div>
+            </div>
+            <li class="pricing-features-item">PRECIO ACTUAL Particulares: ${{tarifa[0][1]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="particulares_acampantes" min="0"  id="c">
+
+                <p>$</p>
+              </div>
+            </div>
           </ul>
-          <a href="#/" class="pricing-button">ACTUALIZAR</a>
-        </div>
-        
-        <div class="pricing-plan">
-          <img src="https://s28.postimg.cc/ju5bnc3x9/plane.png" alt="" class="pricing-img">
+          <input type="submit" class="pricing-button" value="ACTUALIZAR" id="form-submit-1"></input>
+
+
+        </form>
+
+      </div>
+
+      <div class="pricing-plan" id="B">
+        <form action="{{ url_for('tarifas_n') }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
           <h2 class="pricing-header">No acampantes</h2>
           <ul class="pricing-features">
-            <li class="pricing-features-item">PRECIO ACTUAL Alumnos</li>
-            <li class="pricing-features-item">PRECIO ACTUAL Personal Universitario</li>
-            <li class="pricing-features-item">PRECIO ACTUAL Particulares</li>
+
+            <li class="pricing-features-item">PRECIO ACTUAL Alumnos: ${{tarifa[0][5]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="alumno_dia" min="0"  id="d">
+
+                <p>$</p>
+              </div>
+            </div>
+
+            <li class="pricing-features-item">PRECIO ACTUAL Personal Universitario: ${{tarifa[0][4]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div style="display: flex;" class="precio-div">
+
+                <input class="inputs" type="number" name="aportantes_dia" min="0"  id="e">
+
+                <p>$</p>
+              </div>
+            </div>
+            <li class="pricing-features-item">PRECIO ACTUAL Particulares: ${{tarifa[0][3]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="particulares_dia" min="0"  id="f">
+
+                <p>$</p>
+              </div>
+            </div>
           </ul>
 
-          <a href="#/" class="pricing-button is-featured">ACTUALIZAR</a>
-        </div>
-        
-        <div class="pricing-plan">
-          <img src="https://s21.postimg.cc/tpm0cge4n/space-ship.png" alt="" class="pricing-img">
+          <input type="submit" class="pricing-button" value="ACTUALIZAR" id="form-submit-2"></input>
+
+        </form>
+      </div>
+
+      <div class="pricing-plan" id="C">
+        <form action="{{ url_for('tarifas') }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
           <h2 class="pricing-header">Cabañas</h2>
           <ul class="pricing-features">
             <li class="pricing-features-item">Aportantes $4000</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="aportantes" min="0"  id="g">
+
+                <p>$</p>
+              </div>
+            </div>
             <li class="pricing-features-item">No Aportantes $9000</li>
+
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="no_aportantes" min="0"  id="h">
+
+                <p>$</p>
+              </div>
+            </div>
           </ul>
-          <a href="#/" class="pricing-button">ACTUALIZAR</a>
-        </div>
-        
+
+
+
+          <input type="submit" class="pricing-button" value="ACTUALIZAR"></input>
+
+        </form>
       </div>
+
     </div>
+
   </div>
+</div>
+
+<script>
 
 
+
+
+  function populateFields() {
+
+
+    const querystring = window.location.search
+    const params = new URLSearchParams(querystring)
+    return params.get('mod');
+
+
+  }
+
+  $(document).ready(function () {
+    if (populateFields() == "Acampantes") {
+       document.getElementById('d').readOnly= true;
+       document.getElementById('e').readOnly= true;
+       document.getElementById('f').readOnly= true;
+       document.getElementById('g').readOnly= true;
+       document.getElementById('h').readOnly= true;
+      (document.getElementById("A")).style.border = "solid #0c352d 3px";
+      (document.getElementById("A")).style.borderRadius = "5px";
+
+
+    }
+    if (populateFields() == "Por_dia") {
+
+       document.getElementById('a').readOnly= true;
+       document.getElementById('b').readOnly= true;
+       document.getElementById('c').readOnly= true;
+       document.getElementById('g').readOnly= true;
+       document.getElementById('h').readOnly= true;
+      (document.getElementById("B")).style.border = "solid #0c352d 3px";
+      (document.getElementById("B")).style.borderRadius = "5px";
+
+
+
+    }
+
+    if (populateFields() == "Cabañas") {
+      document.getElementById('a').readOnly= true;
+       document.getElementById('b').readOnly= true;
+       document.getElementById('c').readOnly= true;
+       document.getElementById('d').readOnly= true;
+       document.getElementById('e').readOnly= true;
+       document.getElementById('f').readOnly= true;
+      (document.getElementById("C")).style.border = "solid #0c352d 3px";
+      (document.getElementById("C")).style.borderRadius = "5px";
+    }
+
+
+  });
+</script>
 
 {% endblock %}

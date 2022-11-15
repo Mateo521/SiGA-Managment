@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}
+Recaudaciones
+{% endblock %}
+
+{% block content %}
+
+<div class="paginate">
+    <h2>Tabla de Cierre de Cajas</h2>
+
+
+
+
+    <div style="display: grid; grid-template-columns:repeat(7,1fr)">
+        <p>ID</p>
+        <p>USUARIO</p>
+        <p>RETIROS</p>
+        <p>TOTAL RECAUDADO</p>
+        <p>FECHA Y HORA DE ABERTURA</p>
+        <p>FECHA Y HORA DE CIERRE</p>
+        <p>TOTAL EN CAJA AL CIERRE</p>
+
+    </div>
+    <div class="items">
+        {%for row in caja_c %}
+
+        <div class="tablaCajas">
+            <p>{{row[0]}}</p>
+            <p>{{row[1]}}</p>
+            <p>{{row[2]}}</p>
+            <p>{{row[3]}}</p>
+            <p>{{row[4]}}</p>
+            <p>{{row[5]}}</p>
+            <p>{{row[6]}}</p>
+        </div>
+        {%endfor %}
+    </div>
+    <div class="pager">
+        <a style="cursor: pointer;">
+            <div class="firstPage">&laquo;</div>
+            <div class="previousPage">&lsaquo;</div>
+            <div class="pageNumbers"></div>
+            <div class="nextPage">&rsaquo;</div>
+            <div class="lastPage">&raquo;</div>
+        </a>
+    </div>
+</div>
+
+<h3>Recaudacion total de cajas del dia por el momento: {{r_dia[0][0]}} $</h3>
+
+{% endblock %}

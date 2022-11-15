@@ -7,7 +7,7 @@ Registro SIGA
 
 <section class="user">
     <div class="user_options-container">
-        <div class="user_options-text">
+        <div class="user_options-text" id="alta_de_usuario">
             <div class="user_options-unregistered">
                 <h2 class="user_unregistered-title" style="color:white !important;">REGISTRO PARA SIGA</h2>
                 <p class="user_unregistered-text">Al registrarse, se añade un nuevo usuario para acceder a el sistema de
@@ -59,7 +59,150 @@ Registro SIGA
 
 
 </section>
+
+
+
+<section class="user" id="baja_de_usuario">
+    <div class="user_options-container" style="height: 450px;">
+        <div class="user_options-text" style="justify-content: flex-end;">
+            <div class="user_options-unregistered">
+                <h2 class="user_unregistered-title">Nota importante de registro</h2>
+                <p class="user_unregistered-text">Al eliminar un usuario, el mismo no podra acceder mas al sistema del
+                    camping de manera remota.</p>
+            </div>
+        </div>
+
+        <div class="user_options-forms" id="user_options-forms-2">
+            <div class="user_forms-login" id="baja_de_usuario">
+                <h2 class="forms_title">ELIMINAR USUARIO</h2>
+                <form class="forms_form" method="POST" action="{{ url_for('eliminar') }}">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <fieldset class="forms_fieldset">
+                        <div class="forms_field">
+                            <input readonly id="item-1" type="text" name="privilegio" placeholder="ID"
+                                class="forms_field-input" required />
+                        </div>
+                        <div class="forms_field">
+                            <input readonly id="item-2" type="text" name="usuario" placeholder="Nombre de usuario"
+                                class="forms_field-input" required />
+                        </div>
+                        <div class="forms_field">
+                            <input readonly id="item-3" type="text" name="ID" placeholder="Privilegio"
+                                class="forms_field-input" required />
+                        </div>
+
+                    </fieldset>
+                    <div class="forms_buttons">
+                        <input type="submit" value="Eliminar Usuario" class="forms_buttons-action">
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <h4 class="{{ category }}">{{ message }}</h4>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<table class="rwd-table" id="tabla_datos">
+
+    <h3>Eliga el usuario al que desea eliminar: (Tabla de usuarios registrados)</h3>
+    <tr>
+        <th>ID</th>
+        <th>Privilegio</th>
+        <th>Usuario</th>
+
+    </tr>
+    {%for row in data %}
+    <tr>
+        <td data-th="ID">{{row[0]}}</td>
+        <td data-th="Usuario" class="item-1">{{row[3]}}</td>
+        <td data-th="Privilegio" class="item-2">{{row[1]}}</td>
+
+    </tr>
+    {%endfor%}
+    <!-- 
+    <tr>
+        <td data-th="ID">2</td>
+        <td data-th="Nombre Completo">"Comedy"</td>
+        <td data-th="Usuario">1986</td>
+
+    </tr>
+    <tr>
+        <td data-th="ID">3</td>
+        <td data-th="Nombre Completo">Comedy, Drama</td>
+        <td data-th="Usuario">1973</td>
+
+    </tr>
+ -->
+
+</table>
+
+
 <script>
+
+    document.getElementById('tabla_datos')
+        .addEventListener('click', function (item) {
+
+            // To get tr tag 
+            // In the row where we click
+
+            function composedPath(el) {
+
+                var path = [];
+
+                while (el) {
+
+                    path.push(el);
+
+                    if (el.tagName === 'HTML') {
+
+                        path.push(document);
+                        path.push(window);
+
+                        return path;
+                    }
+
+                    el = el.parentElement;
+                }
+            }
+
+
+
+            var row = item.path[1] || (event.composedPath && event.composedPath()) || composedPath(event.target);
+            var row_value = "";
+
+
+
+            $('#item-1').val(row.cells[1].innerHTML);
+            $('#item-2').val(row.cells[2].innerHTML);
+            $('#item-3').val(row.cells[0].innerHTML);
+
+
+            // Toggle the highlight
+            if (row.classList.contains('highlight'))
+                row.classList.remove('highlight');
+            else
+                row.classList.add('highlight');
+        });
+
 
     function populateFields() {
 
@@ -67,13 +210,38 @@ Registro SIGA
         const querystring = window.location.search
         const params = new URLSearchParams(querystring)
 
-        $('#pRV').val(params.get('rol'));
+        return params.get('e');
+
+        ;
 
     }
 
     $(document).ready(function () {
-        populateFields();
+        if (populateFields() == "alta_de_usuario") {
+
+            console.log(populateFields());
+
+            const element = document.getElementById("alta_de_usuario");
+
+            element.scrollIntoView();
+
+        }
+        if (populateFields() == "baja_de_usuario") {
+
+            console.log(populateFields());
+
+            const element = document.getElementById("baja_de_usuario");
+
+            element.scrollIntoView();
+
+        }
+        const querystring = window.location.search
+        const params = new URLSearchParams(querystring)
+        $('#pRV').val(params.get('rol'))
+
+
     });
+
 
 </script>
 

@@ -85,10 +85,10 @@ Registrarse
                     <div class="forms_buttons">
                         <input type="submit" value="Eliminar Usuario" class="forms_buttons-action">
 
-                        {% with messages = get_flashed_messages() %}
+                        {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
-                        {% for message in messages %}
-                        <h4 style="color:red;">{{ message }}</h4>
+                        {% for category, message in messages %}
+                        <h4 class="{{ category }}">{{ message }}</h4>
                         {% endfor %}
                         {% endif %}
                         {% endwith %}
@@ -145,28 +145,8 @@ Registrarse
 
 </table>
 
-<div id="myDiv"></div>
-
 <script>
 
-
-
-    /*
-        $(".item-1").click(function (e) {
-            $('#item-1').val(e.target.innerHTML);
-        });
-        $(".item-2").click(function (e) {
-            $('#item-2').val(e.target.innerHTML);
-        });
-    */
-
-    // $('#pRV').val(tra);
-
-
-
-
-    // JavaScript Code to Highlight any
-    // row in the given table.
     document.getElementById('tabla_datos')
         .addEventListener('click', function (item) {
 
