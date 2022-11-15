@@ -11,7 +11,7 @@ Recaudaciones
 
 
 
-    <div style="display: grid; grid-template-columns:repeat(7,1fr)">
+    <div style="display: grid; grid-template-columns:repeat(7,1fr);     align-items: center;" id="tabla">
         <p>ID</p>
         <p>USUARIO</p>
         <p>RETIROS</p>
@@ -45,7 +45,125 @@ Recaudaciones
         </a>
     </div>
 </div>
+<!-- 
+<h3>Recaudacion total de las cajas del dia : {{r_dia[0][0]}} $</h3>
+<h3>Recaudacion total de las cajas del mes : {{r_mes[0][0]}} $</h3>
+<h3>Recaudacion total de las cajas del año : {{r_anio[0][0]}} $</h3>
+ -->
 
-<h3>Recaudacion total de cajas del dia por el momento: {{r_dia[0][0]}} $</h3>
+<h2 style="text-align: center;">Tabla de recaudaciones</h2>
+<form action="{{url_for('recaudaciones')}}" method="POST" class="date_f">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <div style="display: flex; gap:10px; align-items: center;">
+        <h3>Ingrese una fecha:</h3>
+        <input type="date" id="start" name="fechas" value="2022-01-01" min="2022-01-01" style="font-size: 16px;">
+        <input type="submit" value="ENVIAR">
+    </div>
 
+
+</form>
+<div style="display: grid; grid-template-columns:repeat(4,1fr);  align-items: center; ">
+
+    <p id="r_diaria">RECAUDACION TOTAL DIA:</p>
+    <p> {{r_dia[0][0]}} $</p>
+    <p>-</p>
+    <p>-</p>
+    <p id="r_mensual">RECAUDACION TOTAL MES:</p>
+    <p>{{r_mes[0][0]}} $</p>
+    <p>-</p>
+    <p>-</p>
+    <p id="r_anual">RECAUDACION TOTAL AÑO:</p>
+    <p>{{r_anio[0][0]}} $</p>
+    <p>-</p>
+    <p>-</p>
+    <p>-</p>
+    <p>-</p>
+    <p>Cantidad de acampantes ingresantes al camping</p>
+    <p>Cantidad de no acampantes ingresantes al camping</p>
+
+
+    <p>RECAUDACION POR FECHA:</p>
+    {% for i in r %}
+    <p>{{i[0]}} $</p>
+    {%endfor%}
+
+    {% for i in c_pa %}
+    <p>{{i[0]}}</p>
+    {% endfor%}
+
+    {% for i in c_p %}
+    <p>{{i[0]}}</p>
+    {% endfor%}
+
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+    function populateFields() {
+
+
+        const querystring = window.location.search
+        const params = new URLSearchParams(querystring)
+
+        return params.get('r');
+
+    }
+
+    $(document).ready(function () {
+        if (populateFields() == "diaria") {
+
+            const element = document.getElementById("r_diaria");
+           
+            element.scrollIntoView();
+            (document.getElementById("r_diaria")).style.border = "solid #0c352d 3px";
+        }
+    if (populateFields() == "mensual") {
+
+        const element = document.getElementById("r_mensual");
+
+        element.scrollIntoView();
+        (document.getElementById("r_mensual")).style.border = "solid #0c352d 3px";
+
+    }
+    if (populateFields() == "anual") {
+
+        const element = document.getElementById("r_anual");
+
+        element.scrollIntoView();
+        (document.getElementById("r_anual")).style.border = "solid #0c352d 3px";
+
+    }
+
+
+
+
+    });
+
+
+    $(window).load(function () {
+        getDate();
+    });
+    function getDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("start").value = today;
+        document.getElementById("start").setAttribute("max", today);
+    }
+</script>
 {% endblock %}

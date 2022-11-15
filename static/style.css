@@ -1372,7 +1372,14 @@ td {
 	background-color: whitesmoke;
 	margin: 0 !important;
 }
+
 .tablaCajas p {
 	background-color: whitesmoke;
 	margin: 0 !important;
+}
+
+.date_f {
+
+	padding: 15px;
+
 }

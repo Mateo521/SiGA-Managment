@@ -44,8 +44,10 @@ def index():
     return  redirect(url_for("home"))
 
  
-def conector(a=0):
-    fecha_actual = '2022-11-14'#datetime.today().strftime('%Y-%m-%d')
+def conector(a=0 , fechas = 0):
+    fecha_actual = datetime.today().strftime('%Y-%m-%d')
+    mes_actual = fecha_actual[5:7]
+    anio_actual = fecha_actual[0:4]
     cur = db.connection.cursor()
     if(a == 0):
         return 0
@@ -63,7 +65,16 @@ def conector(a=0):
         cur.execute("SELECT * FROM caja_cerradas ORDER BY id DESC")
     if(a == 7):
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fecha_actual])
-
+    if(a == 8):
+        cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE MID(fecha_cierre, 6, 2) = (%s);',[mes_actual])
+    if(a == 9):
+        cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 4) = (%s);',[anio_actual])
+    if(a==10):
+         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fechas])
+    if(a==11):
+         cur.execute('SELECT count(*) FROM egreso WHERE fecha_ingreso = (%s);',[fechas])
+    if(a==12):
+         cur.execute('SELECT count(*) FROM ingreso_diario WHERE fecha_ingreso = (%s);',[fechas])
 
     return cur.fetchall()
 
@@ -180,10 +191,19 @@ def tarifas():
 
 
 
-@app.route('/recaudaciones')
+@app.route('/recaudaciones',  methods = ['GET', 'POST'])
 @login_required
 def recaudaciones():
-    return render_template("recaudaciones.html", caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7))
+    r = []
+    c = []
+    d = []
+    if request.method =="POST":
+        fecha = request.form["fechas"]
+
+        r = conector(10,fecha)
+        c = conector(11, fecha)
+        d = conector(12, fecha)
+    return render_template("recaudaciones.html", caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7) , r_mes = conector(8) ,r_anio = conector(9) , r = r , c_p = c, c_pa = d)
 
 
 @app.route('/eliminar' , methods = ['GET', 'POST'])
