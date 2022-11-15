@@ -433,7 +433,7 @@ body.loggedin {
 	padding: 0 20px;
 	border-bottom: 1px solid rgba(83, 93, 125, 0.3);
 }
-span{
+.table__account-name{
 	display: none;
 }
 .sidebar .sidebar-layout .sidebar-header>span {
@@ -1489,11 +1489,11 @@ td {
 }
 
 @media only screen and (max-width: 650px) {
-	span{
+	.table__account-name{
 		display: inline;
 	}
 
-	thead {
+	.table__header {
 		display: none;
 	}
 
