@@ -63,6 +63,8 @@ def conector(a=0 , fechas = 0):
         cur.execute("SELECT * FROM caja_abierta ORDER BY id DESC")
     if(a == 6):
         cur.execute("SELECT * FROM caja_cerradas ORDER BY id DESC")
+    if(a==16):
+        cur.execute('SELECT * FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s);',[fechas])
     if(a == 7):
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fecha_actual])
     if(a == 8):
@@ -75,6 +77,12 @@ def conector(a=0 , fechas = 0):
          cur.execute('SELECT count(*) FROM egreso WHERE fecha_ingreso = (%s);',[fechas])
     if(a==12):
          cur.execute('SELECT count(*) FROM ingreso_diario WHERE fecha_ingreso = (%s);',[fechas])
+    if(a==13):
+         cur.execute('SELECT count(*) FROM egreso WHERE fecha_egreso = (%s);',[fechas])
+    if(a==14):
+         cur.execute('SELECT count(*) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s);',[fechas])
+    if(a==15):
+         cur.execute('SELECT count(*) FROM caja_cerradas WHERE SUBSTRING(fecha_abertura, 1, 10) = (%s);',[fechas])
 
     return cur.fetchall()
 
@@ -197,13 +205,20 @@ def recaudaciones():
     r = []
     c = []
     d = []
+    e = []
+    caja_a= []
+    caja_c = []
+    fecha = []
     if request.method =="POST":
         fecha = request.form["fechas"]
 
         r = conector(10,fecha)
         c = conector(11, fecha)
         d = conector(12, fecha)
-    return render_template("recaudaciones.html", caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7) , r_mes = conector(8) ,r_anio = conector(9) , r = r , c_p = c, c_pa = d)
+        e = conector(13 , fecha)
+        caja_a =  conector(14 , fecha)
+        caja_c =  conector(15 , fecha)
+    return render_template("recaudaciones.html", fecha = fecha , caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7) , r_mes = conector(8) ,r_anio = conector(9) , r = r , c_p = c, c_pa = d ,c_egresantes = e , cajaa = caja_a, cajac = caja_c)
 
 
 @app.route('/eliminar' , methods = ['GET', 'POST'])

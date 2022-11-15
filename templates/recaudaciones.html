@@ -12,13 +12,13 @@ Recaudaciones
 
 
     <div style="display: grid; grid-template-columns:repeat(7,1fr);     align-items: center;" id="tabla">
-        <p>ID</p>
-        <p>USUARIO</p>
-        <p>RETIROS</p>
-        <p>TOTAL RECAUDADO</p>
-        <p>FECHA Y HORA DE ABERTURA</p>
-        <p>FECHA Y HORA DE CIERRE</p>
-        <p>TOTAL EN CAJA AL CIERRE</p>
+        <p class="titles">ID</p>
+        <p class="titles">USUARIO</p>
+        <p class="titles">RETIROS</p>
+        <p class="titles">TOTAL RECAUDADO</p>
+        <p class="titles">FECHA Y HORA DE ABERTURA</p>
+        <p class="titles">FECHA Y HORA DE CIERRE</p>
+        <p class="titles">TOTAL EN CAJA AL CIERRE</p>
 
     </div>
     <div class="items">
@@ -51,56 +51,135 @@ Recaudaciones
 <h3>Recaudacion total de las cajas del año : {{r_anio[0][0]}} $</h3>
  -->
 
-<h2 style="text-align: center;">Tabla de recaudaciones</h2>
-<form action="{{url_for('recaudaciones')}}" method="POST" class="date_f">
-    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-    <div style="display: flex; gap:10px; align-items: center;">
-        <h3>Ingrese una fecha:</h3>
-        <input type="date" id="start" name="fechas" value="2022-01-01" min="2022-01-01" style="font-size: 16px;">
-        <input type="submit" value="ENVIAR">
-    </div>
+<h2 style="text-align: center;">Recaudaciones</h2>
 
-
-</form>
-<div style="display: grid; grid-template-columns:repeat(4,1fr);  align-items: center; ">
+<div class="tabla-s">
 
     <p id="r_diaria">RECAUDACION TOTAL DIA:</p>
-    <p> {{r_dia[0][0]}} $</p>
-    <p>-</p>
-    <p>-</p>
     <p id="r_mensual">RECAUDACION TOTAL MES:</p>
-    <p>{{r_mes[0][0]}} $</p>
-    <p>-</p>
-    <p>-</p>
     <p id="r_anual">RECAUDACION TOTAL AÑO:</p>
+    <p> {{r_dia[0][0]}} $</p>
+
+
+    <p>{{r_mes[0][0]}} $</p>
+
+
     <p>{{r_anio[0][0]}} $</p>
-    <p>-</p>
-    <p>-</p>
-    <p>-</p>
-    <p>-</p>
-    <p>Cantidad de acampantes ingresantes al camping</p>
-    <p>Cantidad de no acampantes ingresantes al camping</p>
-
-
-    <p>RECAUDACION POR FECHA:</p>
-    {% for i in r %}
-    <p>{{i[0]}} $</p>
-    {%endfor%}
-
-    {% for i in c_pa %}
-    <p>{{i[0]}}</p>
-    {% endfor%}
-
-    {% for i in c_p %}
-    <p>{{i[0]}}</p>
-    {% endfor%}
 
 
 
 
 </div>
+<!--  
+<div class="Tabla_info">
+
+    <p>Cantidad de ingresantes acampantes</p>
+    <p>Cantidad de </p>
+
+</div>
+-->
+<form action="{{url_for('recaudaciones')}}" method="POST" class="date_f">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <div style="display: flex; gap:10px; align-items: center;">
+        <h3>Ingrese una fecha:</h3>
+        <input type="date" id="start" name="fechas" value="2022-01-01" min="2022-01-01" style="font-size: 16px;">
+        <input type="submit" value="ENVIAR" onclick="obtenerFecha()">
+    </div>
 
 
+</form>
+<div class="table__wrap">
+    <table class="table">
+        <thead class="table__header">
+            <tr class="table__row">
+                <th class="table__cell u-text-left">Fecha</th>
+                <th class="table__cell u-text-left">Total recaudado en el día</th>
+                <th class="table__cell u-text-right">Cantidad de ingresantes acampantes</th>
+                <th class="table__cell u-text-right">Cantidad de ingresantes no acampantes</th>
+                <th class="table__cell u-text-right">Cantidad de egresantes</th>
+                <th class="table__cell u-text-right">Cajas abiertas</th>
+                <th class="table__cell u-text-right">Cajas cerradas</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr class="table__row">
+                <td class="table__account table__cell">
+                    <span class="table__account-name">Fecha</span>
+                    {{fecha}}
+
+                </td>
+                <td class="table__account table__cell">
+                    <span class="table__account-name">Total recaudado en el día</span>
+                    {% for i in r %}
+                    {{i[0]}} $
+                    {%endfor%}
+
+
+
+                </td>
+                <td class="table__balance table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Cantidad de ingresantes acampantes</span>
+                    {% for i in c_pa %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td class="table__limit table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Cantidad de ingresantes no acampantes</span>
+                    {% for i in c_p %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td class="table__available table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Cantidad de egresantes</span>
+                    {% for i in c_egresantes %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td class="table__limit table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Cajas abiertas</span>
+                    {% for i in cajaa %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td class="table__available table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Cajas cerradas</span>
+                    {% for i in cajac %}
+                    {{i[0]}}
+                    {% endfor%}
+
+
+
+                </td>
+
+
+            </tr>
+            
+
+
+
+        </tbody>
+        <!-- 
+        <tfoot>
+
+            <tr class="table__row table__row--last">
+                <td class="table__cell" align="right">Total (<acronym title="US Dollars">USD</acronym>):</td>
+                <td class="table__balance table__cell u-text-right u-font-mono">900.000</td>
+                <td class="table__limit table__cell u-text-right u-font-mono">500.000</td>
+                <td class="table__available table__available--total table__cell u-text-right u-font-mono">1.400.000</td>
+                <td></td>
+            </tr>
+
+        </tfoot>
+         -->
+    </table>
+</div>
 
 
 <script>
@@ -120,26 +199,26 @@ Recaudaciones
         if (populateFields() == "diaria") {
 
             const element = document.getElementById("r_diaria");
-           
+
             element.scrollIntoView();
             (document.getElementById("r_diaria")).style.border = "solid #0c352d 3px";
         }
-    if (populateFields() == "mensual") {
+        if (populateFields() == "mensual") {
 
-        const element = document.getElementById("r_mensual");
+            const element = document.getElementById("r_mensual");
 
-        element.scrollIntoView();
-        (document.getElementById("r_mensual")).style.border = "solid #0c352d 3px";
+            element.scrollIntoView();
+            (document.getElementById("r_mensual")).style.border = "solid #0c352d 3px";
 
-    }
-    if (populateFields() == "anual") {
+        }
+        if (populateFields() == "anual") {
 
-        const element = document.getElementById("r_anual");
+            const element = document.getElementById("r_anual");
 
-        element.scrollIntoView();
-        (document.getElementById("r_anual")).style.border = "solid #0c352d 3px";
+            element.scrollIntoView();
+            (document.getElementById("r_anual")).style.border = "solid #0c352d 3px";
 
-    }
+        }
 
 
 
@@ -164,6 +243,8 @@ Recaudaciones
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById("start").value = today;
         document.getElementById("start").setAttribute("max", today);
+
     }
+
 </script>
 {% endblock %}
