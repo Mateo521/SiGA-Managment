@@ -3,7 +3,9 @@
 Registro SIGA
 {% endblock %}
 
+
 {% block content %}
+
 
 <section class="user">
     <div class="user_options-container">
@@ -155,92 +157,91 @@ Registro SIGA
 
 </table>
 
-
 <script>
-
+    
     document.getElementById('tabla_datos')
-        .addEventListener('click', function (item) {
+    .addEventListener('click', function (item) {
 
-            // To get tr tag 
-            // In the row where we click
+        // To get tr tag 
+        // In the row where we click
 
-            function composedPath(el) {
+        function composedPath(el) {
 
-                var path = [];
+            var path = [];
 
-                while (el) {
+            while (el) {
 
-                    path.push(el);
+                path.push(el);
 
-                    if (el.tagName === 'HTML') {
+                if (el.tagName === 'HTML') {
 
-                        path.push(document);
-                        path.push(window);
+                    path.push(document);
+                    path.push(window);
 
-                        return path;
-                    }
-
-                    el = el.parentElement;
+                    return path;
                 }
+
+                el = el.parentElement;
             }
+        }
 
 
 
-            var row = item.path[1] || (event.composedPath && event.composedPath()) || composedPath(event.target);
-            var row_value = "";
+        var row = item.path[1] || (event.composedPath && event.composedPath()) || composedPath(event.target);
+        var row_value = "";
 
 
 
-            $('#item-1').val(row.cells[1].innerHTML);
-            $('#item-2').val(row.cells[2].innerHTML);
-            $('#item-3').val(row.cells[0].innerHTML);
+        $('#item-1').val(row.cells[1].innerHTML);
+        $('#item-2').val(row.cells[2].innerHTML);
+        $('#item-3').val(row.cells[0].innerHTML);
 
 
-            // Toggle the highlight
-            if (row.classList.contains('highlight'))
-                row.classList.remove('highlight');
-            else
-                row.classList.add('highlight');
-        });
+        // Toggle the highlight
+        if (row.classList.contains('highlight'))
+            row.classList.remove('highlight');
+        else
+            row.classList.add('highlight');
+    });
 
 
-    function populateFields() {
+function populateFields() {
 
 
-        const querystring = window.location.search
-        const params = new URLSearchParams(querystring)
+    const querystring = window.location.search
+    const params = new URLSearchParams(querystring)
 
-        return params.get('e');
+    return params.get('e');
 
-        ;
+    ;
+
+}
+
+$(document).ready(function () {
+    if (populateFields() == "alta_de_usuario") {
+
+        console.log(populateFields());
+
+        const element = document.getElementById("alta_de_usuario");
+
+        element.scrollIntoView();
 
     }
+    if (populateFields() == "baja_de_usuario") {
 
-    $(document).ready(function () {
-        if (populateFields() == "alta_de_usuario") {
+        console.log(populateFields());
 
-            console.log(populateFields());
+        const element = document.getElementById("baja_de_usuario");
 
-            const element = document.getElementById("alta_de_usuario");
+        element.scrollIntoView();
 
-            element.scrollIntoView();
-
-        }
-        if (populateFields() == "baja_de_usuario") {
-
-            console.log(populateFields());
-
-            const element = document.getElementById("baja_de_usuario");
-
-            element.scrollIntoView();
-
-        }
-        const querystring = window.location.search
-        const params = new URLSearchParams(querystring)
-        $('#pRV').val(params.get('rol'))
+    }
+    const querystring = window.location.search
+    const params = new URLSearchParams(querystring)
+    $('#pRV').val(params.get('rol'))
 
 
-    });
+});
 
 
 </script>

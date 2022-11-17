@@ -12,7 +12,7 @@
 
         var pluginName = "paginga",
             defaults = {
-                itemsPerPage: 4,
+                itemsPerPage: 6,
                 itemsContainer: ".items",
                 item: "> div",
                 page: 1,

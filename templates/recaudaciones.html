@@ -3,6 +3,7 @@
 Recaudaciones
 {% endblock %}
 
+
 {% block content %}
 
 <div class="paginate">
@@ -83,7 +84,16 @@ Recaudaciones
     <div style="display: flex; gap:10px; align-items: center;">
         <h3>Ingrese una fecha:</h3>
         <input type="date" id="start" name="fechas" value="2022-01-01" min="2022-01-01" style="font-size: 16px;">
+        <input id="pRV" list="usuarios" type="" name="usuario" placeholder="Ingrese el usuario"
+            class="forms_field-input" required>
+        <datalist id="usuarios">
+            {%for i in u %}
+            <option value="{{i[1]}}" />
+            {%endfor%}
+        </datalist>
         <input type="submit" value="ENVIAR" onclick="obtenerFecha()">
+
+
     </div>
 
 
@@ -99,6 +109,7 @@ Recaudaciones
                 <th class="table__cell u-text-right">Cantidad de egresantes</th>
                 <th class="table__cell u-text-right">Cajas abiertas</th>
                 <th class="table__cell u-text-right">Cajas cerradas</th>
+                <th class="table__cell u-text-right">Total de ingresantes</th>
                 <th></th>
             </tr>
         </thead>
@@ -158,9 +169,20 @@ Recaudaciones
 
                 </td>
 
+                <td class="table__available table__cell u-text-right u-font-mono">
+                    <span class="table__account-name">Total de ingresantes</span>
+
+                    {% for i in t %}
+                    {{i[0]}}
+                    {% endfor%}
+
+
+
+                </td>
+
 
             </tr>
-            
+
 
 
 
@@ -182,7 +204,239 @@ Recaudaciones
 </div>
 
 
+<!--  
+<div id="main">
+    <div class="res">
+        <button class="cmd">Descargar PDF</button>
+    </div>
+
+</div>
+
+<div class="content-template" style="display: grid; grid-template-columns:repeat(8, 1fr)">
+   <div>A</div>
+   <div>B</div>
+   <div>C</div>
+   <div>D</div>
+   <div>E</div>
+   <div>F</div>
+   <div>G</div>
+   <div>H</div>
+</div>
+-->
+
+
+<div id="customers" style="display: none;">
+
+
+    <table id="tab_customers" class="table table-striped">
+        <colgroup>
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+        </colgroup>
+        <thead>
+            <tr class='warning'>
+                <th>U</th>
+                <th>Pr</th>
+
+                <th>P A</th>
+                <th>P NA</th>
+
+                <th>Al A</th>
+                <th>Al NA</th>
+
+
+                <th>Ap A</th>
+                <th>Ap NA</th>
+
+                <th>C A</th>
+                <th>C C</th>
+
+                <th>Recaudado</th>
+                <!-- 
+            <th>Total Recaudado</th>
+              -->
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{{p}}</td>
+
+                <td>
+                    {% for i in ppp %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+
+
+                <td>
+
+                    {% for i in a1 %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td>
+                    {% for i in b1 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+                    {% for i in c1 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+                    {% for i in d1 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+                    {% for i in e1 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+                    {% for i in f1 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+                    {% for i in cajaa %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td>
+
+                    {% for i in cajac %}
+                    {{i[0]}}
+                    {% endfor%}
+
+                </td>
+                <td>
+                    {% for i in recaudado_u %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <!-- 
+                <td>
+                    {% for i in r %}
+                    {{i[0]}} $
+                    {%endfor%}
+                </td>
+                 -->
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+    <table id="tab_customers-2" class="table table-striped">
+        <colgroup>
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+        </colgroup>
+        <thead>
+            <tr class='warning'>
+                <th>ID</th>
+                <th>USUARIO</th>
+                <th>RETIROS</th>
+                <th>TOTAL RECAUDADO</th>
+                <th>FECHA Y HORA DE ABERTURA</th>
+                <th>FECHA Y HORA DE CIERRE</th>
+                <th>TOTAL EN CAJA AL CIERRE</th>
+        </thead>
+        <tbody>
+            {%for row in cajas_cerradas_por_f %}
+
+
+
+
+
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>
+                    {{row[2]}}
+                </td>
+                <td>
+                    {{row[3]}}
+                </td>
+                <td>
+                    {{row[4]}}
+                </td>
+                <td>
+                    {{row[5]}}
+                </td>
+                <td>
+                    {{row[6]}}
+                </td>
+
+                <!-- 
+                <td>
+                    {% for i in r %}
+                    {{i[0]}} $
+                    {%endfor%}
+                </td>
+                 -->
+            </tr>
+            {%endfor %}
+        </tbody>
+    </table>
+    <p id="total-r">
+        {% for i in r %}
+        {{i[0]}}
+        {%endfor%}
+    </p>
+</div>
+
+<button onclick="javascript:PDF()">PDF</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="/static/pagination/jspdf.debug.js"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
+
 <script>
+    /*
+         <th>U</th>
+                <th>Pr</th>
+
+                <th>P A</th>
+                <th>P NA</th>
+
+                <th>Al A</th>
+                <th>Al NA</th>
+
+for i in r
+    i[0]
+endfor
+                <th>Ap A</th>
+                <th>Ap NA</th>
+
+                <th>C Ab</th>
+                <th>C Cr</th>
+                */
+    function PDF() {
+        const doc = new jsPDF()
+        doc.setFontSize(12);
+        doc.text(20, 7, "NA: No acampantes, A:Acampantes, C Ab: Cajas abiertas , C Cr : Cajas cerradas")
+        doc.text(20, 12, "P: Particulares,  Al:  Alumnos , Ap : Aportantes, U: Usuario , Pr: Privilegio")
+        doc.autoTable({ html: '#tab_customers' })
+        doc.autoTable({ html: '#tab_customers-2' })
+        let finalY = doc.lastAutoTable.finalY; // The y position on the page
+        var total = document.getElementById("total-r").innerHTML;
+
+
+        doc.text(62.63, finalY + 11.15, total);
+        doc.text(20, finalY + 20, "Total recaudado en el día:$")
+
+        doc.save('table.pdf')
+
+    }
 
 
     function populateFields() {
@@ -245,6 +499,5 @@ Recaudaciones
         document.getElementById("start").setAttribute("max", today);
 
     }
-
 </script>
 {% endblock %}

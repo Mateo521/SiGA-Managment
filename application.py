@@ -43,8 +43,31 @@ def status_404(error):
 def index():
     return  redirect(url_for("home"))
 
- 
-def conector(a=0 , fechas = 0):
+def registros_db(a = 0, fechas = 0, usuarios = 0):
+    cur = db.connection.cursor()
+    if(a == 0 or fechas == 0 or fechas == 0):
+        return 0
+    if(a == 1):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo particular acampante";',(fechas ,usuarios))
+    if(a == 2):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo particular por el dia";',(fechas ,usuarios))
+    if(a == 3):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo alumno acampante";',(fechas ,usuarios))
+    if(a == 4):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo alumno por el dia";',(fechas ,usuarios))
+    if(a == 5):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo aportante acampante";',(fechas ,usuarios))
+    if(a == 6):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo aportante por el dia";',(fechas ,usuarios))
+    
+
+     #   aportante_noacampante = registros_db(6,fecha,usuario)
+   
+    return cur.fetchall()
+
+
+
+def conector(a=0 , fechas = 0 , usuarios = 0):
     fecha_actual = datetime.today().strftime('%Y-%m-%d')
     mes_actual = fecha_actual[5:7]
     anio_actual = fecha_actual[0:4]
@@ -59,10 +82,20 @@ def conector(a=0 , fechas = 0):
         cur.execute("SELECT * FROM usuarios_web")
     if(a == 4):
         cur.execute("SELECT * FROM usuarios")
+    if(a == 21):
+        cur.execute("SELECT privilegios FROM usuarios WHERE usuario  = (%s);",[usuarios])
+    if(a == 17):
+        cur.execute("SELECT count(*) FROM ingreso")
+    if(a == 18):
+        cur.execute("SELECT count(*) FROM ingreso_diario")
+    if(a == 19):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s);',(fechas ,usuarios))
     if(a == 5):
         cur.execute("SELECT * FROM caja_abierta ORDER BY id DESC")
     if(a == 6):
         cur.execute("SELECT * FROM caja_cerradas ORDER BY id DESC")
+    if(a == 22):
+        cur.execute("SELECT * FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s) ORDER BY id DESC", [fechas])
     if(a==16):
         cur.execute('SELECT * FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s);',[fechas])
     if(a == 7):
@@ -73,6 +106,9 @@ def conector(a=0 , fechas = 0):
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 4) = (%s);',[anio_actual])
     if(a==10):
          cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fechas])
+    if(a==20):
+        cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s) AND usuario = (%s)',(fechas,usuarios))
+
     if(a==11):
          cur.execute('SELECT count(*) FROM egreso WHERE fecha_ingreso = (%s);',[fechas])
     if(a==12):
@@ -91,7 +127,9 @@ def conector(a=0 , fechas = 0):
 @app.route('/home')
 @login_required
 def home():
-    return render_template('index.html', data = conector(1), tarifa = conector(2))
+
+
+    return render_template('index.html', data = conector(1), tarifa = conector(2), cantidadacm = conector(17), cantidadd = conector(18))
 
 @app.route('/logout')
 def logout():
@@ -197,11 +235,14 @@ def tarifas_a():
 def tarifas():
     return render_template("tarifas.html", tarifa = conector(2))
 
-
+      
 
 @app.route('/recaudaciones',  methods = ['GET', 'POST'])
-@login_required
+@login_required 
 def recaudaciones():
+    users = conector(4)
+    total = []
+    privilegios = []
     r = []
     c = []
     d = []
@@ -209,18 +250,55 @@ def recaudaciones():
     caja_a= []
     caja_c = []
     fecha = []
+    usuario = []
+    g = []
+    cajas_cerradas_por_fecha = []
+    particular_acampantes = []
+    particular_noacampantes = []
+
+    alumno_acampante = []
+    alumno_noacampante = []
+
+    aportante_acampante = []
+    aportante_noacampante = []
     if request.method =="POST":
         fecha = request.form["fechas"]
-
+        usuario = request.form["usuario"]
+        
         r = conector(10,fecha)
         c = conector(11, fecha)
         d = conector(12, fecha)
         e = conector(13 , fecha)
+        g = conector(20 , fecha, usuario)
         caja_a =  conector(14 , fecha)
         caja_c =  conector(15 , fecha)
-    return render_template("recaudaciones.html", fecha = fecha , caja_a = conector(5) , caja_c = conector(6) , r_dia = conector(7) , r_mes = conector(8) ,r_anio = conector(9) , r = r , c_p = c, c_pa = d ,c_egresantes = e , cajaa = caja_a, cajac = caja_c)
+        privilegios = conector(21 ,0 , usuario)
+        total = conector(19, fecha, usuario)
+        particular_acampantes = registros_db(1,fecha,usuario)
+        particular_noacampantes = registros_db(2,fecha,usuario)
 
+        alumno_acampante = registros_db(3,fecha,usuario)
+        alumno_noacampante = registros_db(4,fecha,usuario)
 
+        aportante_acampante = registros_db(5,fecha,usuario)
+        aportante_noacampante = registros_db(6,fecha,usuario)
+
+        cajas_cerradas_por_fecha = conector(22, fecha)
+
+    return render_template("recaudaciones.html", 
+    fecha = fecha , caja_a = conector(5) , caja_c = conector(6)
+     , r_dia = conector(7) , r_mes = conector(8) , r_anio = conector(9) 
+     , r = r , c_p = c, c_pa = d 
+     , c_egresantes = e ,cajaa = caja_a
+     , cajac = caja_c,  t = total 
+     , u = users, p = usuario
+     , a1 = particular_acampantes , b1 = particular_noacampantes , c1 = alumno_acampante , d1 = alumno_noacampante , e1 = aportante_acampante , f1 = aportante_noacampante
+     , recaudado_u = g
+     ,ppp = privilegios
+     , cajas_cerradas_por_f = cajas_cerradas_por_fecha
+     ) 
+
+  
 @app.route('/eliminar' , methods = ['GET', 'POST'])
 def eliminar():
 

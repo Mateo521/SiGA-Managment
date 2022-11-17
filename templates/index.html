@@ -50,8 +50,15 @@ Inicio
             <li>Particulares: ${{tarifa[0][1]}}</li>
         </ul>
     </div>
-    <h3>Cantidad de personas que estan actualmente en el Camping:</h3>
-
+    <div>
+        <h3>Cantidad de personas que estan actualmente en el Camping:</h3>
+        {%for i in cantidadacm %}
+        <p>Acampantes: {{i[0]}}</p>
+        {%endfor%}
+        {%for i in cantidadd %}
+        <p>No Acampantes: {{i[0]}}</p>
+        {%endfor%}
+    </div>
     <h3>Cambios hechos hasta ahora: {{data[0][0]}}</h3>
 
 </div>

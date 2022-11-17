@@ -3,6 +3,8 @@
 Tarifas
 {% endblock %}
 
+
+
 {% block content %}
 
 
@@ -142,59 +144,57 @@ Tarifas
 </div>
 
 <script>
-
-
-
+  
 
   function populateFields() {
 
 
-    const querystring = window.location.search
-    const params = new URLSearchParams(querystring)
-    return params.get('mod');
+const querystring = window.location.search
+const params = new URLSearchParams(querystring)
+return params.get('mod');
 
 
-  }
+}
 
-  $(document).ready(function () {
-    if (populateFields() == "Acampantes") {
-       document.getElementById('d').readOnly= true;
-       document.getElementById('e').readOnly= true;
-       document.getElementById('f').readOnly= true;
-       document.getElementById('g').readOnly= true;
-       document.getElementById('h').readOnly= true;
-      (document.getElementById("A")).style.border = "solid #0c352d 3px";
-      (document.getElementById("A")).style.borderRadius = "5px";
-
-
-    }
-    if (populateFields() == "Por_dia") {
-
-       document.getElementById('a').readOnly= true;
-       document.getElementById('b').readOnly= true;
-       document.getElementById('c').readOnly= true;
-       document.getElementById('g').readOnly= true;
-       document.getElementById('h').readOnly= true;
-      (document.getElementById("B")).style.border = "solid #0c352d 3px";
-      (document.getElementById("B")).style.borderRadius = "5px";
+$(document).ready(function () {
+if (populateFields() == "Acampantes") {
+   document.getElementById('d').readOnly= true;
+   document.getElementById('e').readOnly= true;
+   document.getElementById('f').readOnly= true;
+   document.getElementById('g').readOnly= true;
+   document.getElementById('h').readOnly= true;
+  (document.getElementById("A")).style.border = "solid #0c352d 3px";
+  (document.getElementById("A")).style.borderRadius = "5px";
 
 
+}
+if (populateFields() == "Por_dia") {
 
-    }
-
-    if (populateFields() == "Cabañas") {
-      document.getElementById('a').readOnly= true;
-       document.getElementById('b').readOnly= true;
-       document.getElementById('c').readOnly= true;
-       document.getElementById('d').readOnly= true;
-       document.getElementById('e').readOnly= true;
-       document.getElementById('f').readOnly= true;
-      (document.getElementById("C")).style.border = "solid #0c352d 3px";
-      (document.getElementById("C")).style.borderRadius = "5px";
-    }
+   document.getElementById('a').readOnly= true;
+   document.getElementById('b').readOnly= true;
+   document.getElementById('c').readOnly= true;
+   document.getElementById('g').readOnly= true;
+   document.getElementById('h').readOnly= true;
+  (document.getElementById("B")).style.border = "solid #0c352d 3px";
+  (document.getElementById("B")).style.borderRadius = "5px";
 
 
-  });
+
+}
+
+if (populateFields() == "Cabañas") {
+  document.getElementById('a').readOnly= true;
+   document.getElementById('b').readOnly= true;
+   document.getElementById('c').readOnly= true;
+   document.getElementById('d').readOnly= true;
+   document.getElementById('e').readOnly= true;
+   document.getElementById('f').readOnly= true;
+  (document.getElementById("C")).style.border = "solid #0c352d 3px";
+  (document.getElementById("C")).style.borderRadius = "5px";
+}
+
+
+});
 </script>
 
 {% endblock %}

@@ -3,7 +3,9 @@
 Registrarse
 {% endblock %}
 
+
 {% block content %}
+
 
 <section class="user">
     <div class="user_options-container">
@@ -146,66 +148,68 @@ Registrarse
 </table>
 
 <script>
-
+    
     document.getElementById('tabla_datos')
-        .addEventListener('click', function (item) {
+    .addEventListener('click', function (item) {
 
-            // To get tr tag 
-            // In the row where we click
-            var row = item.path[1];
+        // To get tr tag 
+        // In the row where we click
+        var row = item.path[1];
 
-            var row_value = "";
-
-
-
-            $('#item-1').val(row.cells[1].innerHTML);
-            $('#item-2').val(row.cells[2].innerHTML);
-            $('#item-3').val(row.cells[0].innerHTML);
-
-
-            // Toggle the highlight
-            if (row.classList.contains('highlight'))
-                row.classList.remove('highlight');
-            else
-                row.classList.add('highlight');
-        });
-
-
-    function populateFields() {
-
-
-        const querystring = window.location.search
-        const params = new URLSearchParams(querystring)
-
-        return params.get('e');
-
-    }
-
-    $(document).ready(function () {
-        if (populateFields() == "eliminar_usuario") {
-
-            console.log(populateFields());
-
-            const element = document.getElementById("eliminar_usuario");
-
-            element.scrollIntoView();
-
-        }
-        if (populateFields() == "agregar_usuario") {
-
-            console.log(populateFields());
-
-            const element = document.getElementById("agregar_usuario");
-
-            element.scrollIntoView();
-
-        }
+        var row_value = "";
 
 
 
+        $('#item-1').val(row.cells[1].innerHTML);
+        $('#item-2').val(row.cells[2].innerHTML);
+        $('#item-3').val(row.cells[0].innerHTML);
 
+
+        // Toggle the highlight
+        if (row.classList.contains('highlight'))
+            row.classList.remove('highlight');
+        else
+            row.classList.add('highlight');
     });
 
 
+function populateFields() {
+
+
+    const querystring = window.location.search
+    const params = new URLSearchParams(querystring)
+
+    return params.get('e');
+
+}
+
+$(document).ready(function () {
+    if (populateFields() == "eliminar_usuario") {
+
+        console.log(populateFields());
+
+        const element = document.getElementById("eliminar_usuario");
+
+        element.scrollIntoView();
+
+    }
+    if (populateFields() == "agregar_usuario") {
+
+        console.log(populateFields());
+
+        const element = document.getElementById("agregar_usuario");
+
+        element.scrollIntoView();
+
+    }
+
+
+
+
+});
+
+
 </script>
+
+
 {% endblock %}
