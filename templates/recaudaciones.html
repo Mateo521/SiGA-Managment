@@ -6,7 +6,7 @@ Recaudaciones
 
 {% block content %}
 
-<div class="paginate">
+<div class="paginate" id="tabla-pc">
     <h2>Tabla de Cierre de Cajas</h2>
 
 
@@ -79,9 +79,9 @@ Recaudaciones
 
 </div>
 -->
-<form action="{{url_for('recaudaciones')}}" method="POST" class="date_f">
+<form action="{{url_for('recaudaciones')}}" method="POST" class="date_f" id="fecha_de_cierre">
     <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-    <div style="display: flex; gap:10px; align-items: center;">
+    <div style="display: flex; gap:10px; align-items: center; justify-content: center; flex-wrap: wrap;">
         <h3>Ingrese una fecha:</h3>
         <input type="date" id="start" name="fechas" value="2022-01-01" min="2022-01-01" style="font-size: 16px;">
         <input id="pRV" list="usuarios" type="" name="usuario" placeholder="Ingrese el usuario"
@@ -91,13 +91,14 @@ Recaudaciones
             <option value="{{i[1]}}" />
             {%endfor%}
         </datalist>
-        <input type="submit" value="ENVIAR" onclick="obtenerFecha()">
+        <input type="submit" value="GENERAR PDF">
 
 
     </div>
 
 
 </form>
+<p id="fecha_elegida" style="display: none;">{{fecha}}</p>
 <div class="table__wrap">
     <table class="table">
         <thead class="table__header">
@@ -353,14 +354,9 @@ Recaudaciones
         </thead>
         <tbody>
             {%for row in cajas_cerradas_por_f %}
-
-
-
-
-
             <tr>
                 <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
+                <td id="pdf_g">{{row[1]}}</td>
                 <td>
                     {{row[2]}}
                 </td>
@@ -376,31 +372,97 @@ Recaudaciones
                 <td>
                     {{row[6]}}
                 </td>
-
-                <!-- 
-                <td>
-                    {% for i in r %}
-                    {{i[0]}} $
-                    {%endfor%}
-                </td>
-                 -->
             </tr>
             {%endfor %}
         </tbody>
     </table>
+
+    <table id="tab_customers-3" class="table table-striped">
+        <colgroup>
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+            <col width="20%">
+        </colgroup>
+        <thead>
+            <tr class='warning'>
+                <th>P A</th>
+                <th>P NA</th>
+
+                <th>Al A</th>
+                <th>Al NA</th>
+
+
+                <th>Ap A</th>
+                <th>Ap NA</th>
+
+                <th>Total Ingresantes</th>
+                <!-- 
+            <th>Total Recaudado</th>
+              -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="1">
+                    {% for i in b2 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="2">
+                    {% for i in b3 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="3">
+                    {% for i in b4 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="4">
+                    {% for i in b5 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="5">
+                    {% for i in b6 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="6">
+                    {% for i in b7 %}
+                    {{i[0]}}
+                    {% endfor%}
+                </td>
+                <td id="total">
+                    150
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+
     <p id="total-r">
         {% for i in r %}
         {{i[0]}}
         {%endfor%}
     </p>
 </div>
-
-<button onclick="javascript:PDF()">PDF</button>
+<p id="7">13</p>
+<input type="button" value="OINDBFONBOIDF " onclick="obtain()">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 <script src="/static/pagination/jspdf.debug.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
 
 <script>
+    function obtain() {
+        const i = document.getElementById("7");
+        console.log(i.innerHTML)
+    }
     /*
          <th>U</th>
                 <th>Pr</th>
@@ -420,24 +482,59 @@ endfor
                 <th>C Ab</th>
                 <th>C Cr</th>
                 */
+
+    function GenerarPDF() {
+
+        if ($('#pdf_g').length) {
+            console.log("Existe tal consulta.")
+            PDF();
+        }
+
+    }
+
     function PDF() {
+        var a1 = new Array();
+        var total = 0
+        for (i = 0; i < 6; i++) {
+            a1[i] = parseInt(document.getElementById((i + 1).toString()).innerHTML);
+            console.log(a1[i]);
+            total += a1[i];
+        }
+
+
+        document.getElementById("total").textContent = total;
+
         const doc = new jsPDF()
         doc.setFontSize(12);
         doc.text(20, 7, "NA: No acampantes, A:Acampantes, C Ab: Cajas abiertas , C Cr : Cajas cerradas")
         doc.text(20, 12, "P: Particulares,  Al:  Alumnos , Ap : Aportantes, U: Usuario , Pr: Privilegio")
         doc.autoTable({ html: '#tab_customers' })
         doc.autoTable({ html: '#tab_customers-2' })
+        doc.autoTable({ html: '#tab_customers-3' })
+
+
         let finalY = doc.lastAutoTable.finalY; // The y position on the page
         var total = document.getElementById("total-r").innerHTML;
+        var fecha = document.getElementById("fecha_elegida").innerHTML;
+
+        doc.text(20, 34.15, "Tabla de cierre de cajas de la fecha seleccionada:");
+        doc.text(62.63, finalY + 1.15, total);
+        doc.text(20, finalY - 16.5, "Tabla de ingresantes de la fecha seleccionada:")
+        doc.text(20, finalY + 11, "Total recaudado en el día:$")
+
+        doc.save('Tablaconsulta_' + fecha + '.pdf')
 
 
-        doc.text(62.63, finalY + 11.15, total);
-        doc.text(20, finalY + 20, "Total recaudado en el día:$")
-
-        doc.save('table.pdf')
 
     }
 
+    $(document).ready(function () {
+
+
+        GenerarPDF();
+
+
+    });
 
     function populateFields() {
 
@@ -473,7 +570,22 @@ endfor
             (document.getElementById("r_anual")).style.border = "solid #0c352d 3px";
 
         }
+        if (populateFields() == "fecha_de_cierre") {
 
+            const element = document.getElementById("fecha_de_cierre");
+
+            element.scrollIntoView();
+            (document.getElementById("fecha_de_cierre")).style.border = "solid #0c352d 3px";
+
+        }
+        if (populateFields() == "tabla_de_cajas") {
+
+            const element = document.getElementById("tabla-pc");
+
+            element.scrollIntoView();
+            (document.getElementById("tabla-pc")).style.border = "solid #0c352d 3px";
+
+        }
 
 
 

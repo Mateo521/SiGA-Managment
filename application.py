@@ -59,6 +59,19 @@ def registros_db(a = 0, fechas = 0, usuarios = 0):
         cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo aportante acampante";',(fechas ,usuarios))
     if(a == 6):
         cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND usuario = (%s) AND comentario = "ha ingresado un nuevo aportante por el dia";',(fechas ,usuarios))
+   
+    if(a == 7):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo particular acampante";',([fechas]))
+    if(a == 8):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo particular por el dia";',([fechas]))
+    if(a == 9):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo alumno acampante";',([fechas]))
+    if(a == 10):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo alumno por el dia";',([fechas]))
+    if(a == 11):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo aportante acampante";',([fechas]))
+    if(a == 12):
+        cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo aportante por el dia";',([fechas]))
     
 
      #   aportante_noacampante = registros_db(6,fecha,usuario)
@@ -80,7 +93,7 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
         cur.execute("SELECT * FROM tarifas WHERE id = '8'")
     if(a == 3):
         cur.execute("SELECT * FROM usuarios_web")
-    if(a == 4):
+    if(a == 4): 
         cur.execute("SELECT * FROM usuarios")
     if(a == 21):
         cur.execute("SELECT privilegios FROM usuarios WHERE usuario  = (%s);",[usuarios])
@@ -261,6 +274,15 @@ def recaudaciones():
 
     aportante_acampante = []
     aportante_noacampante = []
+
+    particular_acampantes_tot = []
+    particular_noacampantes_tot = []
+
+    alumno_acampante_tot = []
+    alumno_noacampante_tot = []
+
+    aportante_acampante_tot = []
+    aportante_noacampante_tot = []
     if request.method =="POST":
         fecha = request.form["fechas"]
         usuario = request.form["usuario"]
@@ -283,6 +305,16 @@ def recaudaciones():
         aportante_acampante = registros_db(5,fecha,usuario)
         aportante_noacampante = registros_db(6,fecha,usuario)
 
+
+        particular_acampantes_tot = registros_db(7,fecha)
+        particular_noacampantes_tot = registros_db(8,fecha)
+
+        alumno_acampante_tot = registros_db(9,fecha)
+        alumno_noacampante_tot = registros_db(10,fecha)
+
+        aportante_acampante_tot = registros_db(11,fecha)
+        aportante_noacampante_tot = registros_db(12,fecha)
+
         cajas_cerradas_por_fecha = conector(22, fecha)
 
     return render_template("recaudaciones.html", 
@@ -296,6 +328,13 @@ def recaudaciones():
      , recaudado_u = g
      ,ppp = privilegios
      , cajas_cerradas_por_f = cajas_cerradas_por_fecha
+     ,b2 = particular_acampantes_tot
+     ,b3 = particular_noacampantes_tot
+     ,b4 = alumno_acampante_tot 
+     ,b5 =  alumno_noacampante_tot
+     ,b6 =  aportante_acampante_tot 
+     ,b7 =  aportante_noacampante_tot 
+  #   ,cantidadacm = conector(17), cantidadd = conector(18)
      ) 
 
   

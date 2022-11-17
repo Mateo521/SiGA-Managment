@@ -433,9 +433,11 @@ body.loggedin {
 	padding: 0 20px;
 	border-bottom: 1px solid rgba(83, 93, 125, 0.3);
 }
-.table__account-name{
+
+.table__account-name {
 	display: none;
 }
+
 .sidebar .sidebar-layout .sidebar-header>span {
 	overflow: hidden;
 	white-space: nowrap;
@@ -1456,9 +1458,7 @@ td {
 	text-align: left;
 }
 
-.u-text-right {
-	text-align: center;
-}
+
 
 .u-text-center {
 	text-align: center;
@@ -1488,8 +1488,8 @@ td {
 	-webkit-font-smoothing: antialiased;
 }
 
-@media only screen and (max-width: 650px) {
-	.table__account-name{
+@media only screen and (max-width: 1289px) {
+	.table__account-name {
 		display: inline;
 	}
 
@@ -1500,7 +1500,7 @@ td {
 
 	.table__row {
 		display: grid;
-		grid-template-columns: 1fr ;
+		grid-template-columns: 1fr;
 		grid-template-rows: 1fr 1fr;
 		grid-column-gap: 1rem;
 		justify-items: start;
@@ -1554,5 +1554,12 @@ td {
 	.table__transfer {
 		grid-column: 3;
 		grid-row: span 2;
+	}
+}
+
+
+@media screen and (max-width:400px) {
+	#tabla-pc {
+		display: none;
 	}
 }
