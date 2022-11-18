@@ -45,6 +45,7 @@ def index():
 
 def registros_db(a = 0, fechas = 0, usuarios = 0):
     cur = db.connection.cursor()
+    print(fechas)
     if(a == 0 or fechas == 0 or fechas == 0):
         return 0
     if(a == 1):
@@ -224,7 +225,6 @@ def tarifas_n():
 @login_required
 def tarifas_a():
 
-
     if request.method == "POST":
 
         cur = db.connection.cursor()
@@ -240,6 +240,45 @@ def tarifas_a():
             cur.execute("UPDATE tarifas SET tarifa_aportante = (%s) WHERE id = '8'" , [acampanteaportante])
         db.connection.commit()
     return redirect(url_for("tarifas"))
+
+@app.route('/tarifas_c' , methods = ['GET', 'POST'])
+@login_required
+def tarifas_c():
+
+
+    if request.method == "POST":
+
+        cur = db.connection.cursor()
+
+        cabana_ap = request.form["cabana_ap"]
+        cabana_nap = request.form["cabana_nap"]
+        if(cabana_ap!=""):
+            cur.execute("UPDATE tarifas SET tarifa_cabañas = (%s) WHERE id = '8'" , [cabana_ap])
+        if(cabana_nap!=""):
+            cur.execute("UPDATE tarifas SET cabañas_noaportantes = (%s) WHERE id = '8'" , [cabana_nap])
+        db.connection.commit()
+    return redirect(url_for("tarifas"))
+
+
+@app.route('/tarifas_i' , methods = ['GET', 'POST'])
+@login_required
+def tarifas_i():
+
+
+    if request.method == "POST":
+
+        cur = db.connection.cursor()
+
+        tarifas_ac = request.form["invitados_ac"]
+        tarifas_nac = request.form["invitados_nac"]
+        if(tarifas_ac!=""):
+            cur.execute("UPDATE tarifas SET invitados_acampar = (%s) WHERE id = '8'" , [tarifas_ac])
+        if(tarifas_nac!=""):
+            cur.execute("UPDATE tarifas SET tarifa_invitados = (%s) WHERE id = '8'" , [tarifas_nac])
+        db.connection.commit()
+    return redirect(url_for("tarifas"))
+
+
 
 
 

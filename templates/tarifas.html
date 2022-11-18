@@ -36,7 +36,7 @@ Tarifas
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="aportantes_acampantes" min="0"  id="b">
+                <input class="inputs" type="number" name="aportantes_acampantes" min="0" id="b">
 
                 <p>$</p>
               </div>
@@ -46,7 +46,7 @@ Tarifas
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="particulares_acampantes" min="0"  id="c">
+                <input class="inputs" type="number" name="particulares_acampantes" min="0" id="c">
 
                 <p>$</p>
               </div>
@@ -70,7 +70,7 @@ Tarifas
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="alumno_dia" min="0"  id="d">
+                <input class="inputs" type="number" name="alumno_dia" min="0" id="d">
 
                 <p>$</p>
               </div>
@@ -81,7 +81,7 @@ Tarifas
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div style="display: flex;" class="precio-div">
 
-                <input class="inputs" type="number" name="aportantes_dia" min="0"  id="e">
+                <input class="inputs" type="number" name="aportantes_dia" min="0" id="e">
 
                 <p>$</p>
               </div>
@@ -91,7 +91,7 @@ Tarifas
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="particulares_dia" min="0"  id="f">
+                <input class="inputs" type="number" name="particulares_dia" min="0" id="f">
 
                 <p>$</p>
               </div>
@@ -104,27 +104,27 @@ Tarifas
       </div>
 
       <div class="pricing-plan" id="C">
-        <form action="{{ url_for('tarifas') }}" method="POST">
+        <form action="{{ url_for('tarifas_c') }}" method="POST">
           <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
           <h2 class="pricing-header">Cabañas</h2>
           <ul class="pricing-features">
-            <li class="pricing-features-item">Aportantes $4000</li>
+            <li class="pricing-features-item">Aportantes ${{tarifa[0][8]}}</li>
             <div class="precio">
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="aportantes" min="0"  id="g">
+                <input class="inputs" type="number" name="cabana_ap" min="0" id="g">
 
                 <p>$</p>
               </div>
             </div>
-            <li class="pricing-features-item">No Aportantes $9000</li>
+            <li class="pricing-features-item">No Aportantes ${{tarifa[0][11]}}</li>
 
             <div class="precio">
               <p style="font-size: 11px;">Nuevo precio:</p>
               <div class="precio-div">
 
-                <input class="inputs" type="number" name="no_aportantes" min="0"  id="h">
+                <input class="inputs" type="number" name="cabana_nap" min="0" id="h">
 
                 <p>$</p>
               </div>
@@ -138,63 +138,130 @@ Tarifas
         </form>
       </div>
 
+
+
+
+
+
+
+      <div class="pricing-plan" id="D">
+        <form action="{{ url_for('tarifas_i') }}" method="POST">
+          <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+          <h2 class="pricing-header">Invitados</h2>
+          <ul class="pricing-features">
+            <li class="pricing-features-item">Acampantes ${{tarifa[0][10]}}</li>
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="invitados_ac" min="0" id="i">
+
+                <p>$</p>
+              </div>
+            </div>
+            <li class="pricing-features-item">No Acampantes ${{tarifa[0][9]}}</li>
+
+            <div class="precio">
+              <p style="font-size: 11px;">Nuevo precio:</p>
+              <div class="precio-div">
+
+                <input class="inputs" type="number" name="invitados_nac" min="0" id="j">
+
+                <p>$</p>
+              </div>
+            </div>
+          </ul>
+
+
+
+          <input type="submit" class="pricing-button" value="ACTUALIZAR"></input>
+
+        </form>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
+
 
   </div>
 </div>
 
 <script>
-  
+
 
   function populateFields() {
 
 
-const querystring = window.location.search
-const params = new URLSearchParams(querystring)
-return params.get('mod');
+    const querystring = window.location.search
+    const params = new URLSearchParams(querystring)
+    return params.get('mod');
 
 
-}
+  }
 
-$(document).ready(function () {
-if (populateFields() == "Acampantes") {
-   document.getElementById('d').readOnly= true;
-   document.getElementById('e').readOnly= true;
-   document.getElementById('f').readOnly= true;
-   document.getElementById('g').readOnly= true;
-   document.getElementById('h').readOnly= true;
-  (document.getElementById("A")).style.border = "solid #0c352d 3px";
-  (document.getElementById("A")).style.borderRadius = "5px";
-
-
-}
-if (populateFields() == "Por_dia") {
-
-   document.getElementById('a').readOnly= true;
-   document.getElementById('b').readOnly= true;
-   document.getElementById('c').readOnly= true;
-   document.getElementById('g').readOnly= true;
-   document.getElementById('h').readOnly= true;
-  (document.getElementById("B")).style.border = "solid #0c352d 3px";
-  (document.getElementById("B")).style.borderRadius = "5px";
+  $(document).ready(function () {
+    if (populateFields() == "Acampantes") {
+      document.getElementById('d').readOnly = true;
+      document.getElementById('e').readOnly = true;
+      document.getElementById('f').readOnly = true;
+      document.getElementById('g').readOnly = true;
+      document.getElementById('h').readOnly = true;
+      (document.getElementById("A")).style.border = "solid #0c352d 3px";
+      (document.getElementById("A")).style.borderRadius = "5px";
 
 
+    }
+    if (populateFields() == "Por_dia") {
 
-}
-
-if (populateFields() == "Cabañas") {
-  document.getElementById('a').readOnly= true;
-   document.getElementById('b').readOnly= true;
-   document.getElementById('c').readOnly= true;
-   document.getElementById('d').readOnly= true;
-   document.getElementById('e').readOnly= true;
-   document.getElementById('f').readOnly= true;
-  (document.getElementById("C")).style.border = "solid #0c352d 3px";
-  (document.getElementById("C")).style.borderRadius = "5px";
-}
+      document.getElementById('a').readOnly = true;
+      document.getElementById('b').readOnly = true;
+      document.getElementById('c').readOnly = true;
+      document.getElementById('g').readOnly = true;
+      document.getElementById('h').readOnly = true;
+      (document.getElementById("B")).style.border = "solid #0c352d 3px";
+      (document.getElementById("B")).style.borderRadius = "5px";
 
 
-});
+
+    }
+
+    if (populateFields() == "Cabañas") {
+      document.getElementById('a').readOnly = true;
+      document.getElementById('b').readOnly = true;
+      document.getElementById('c').readOnly = true;
+      document.getElementById('d').readOnly = true;
+      document.getElementById('e').readOnly = true;
+      document.getElementById('f').readOnly = true;
+      (document.getElementById("C")).style.border = "solid #0c352d 3px";
+      (document.getElementById("C")).style.borderRadius = "5px";
+    }
+
+    if (populateFields() == "Invitados") {
+      document.getElementById('a').readOnly = true;
+      document.getElementById('b').readOnly = true;
+      document.getElementById('c').readOnly = true;
+      document.getElementById('d').readOnly = true;
+      document.getElementById('e').readOnly = true;
+      document.getElementById('f').readOnly = true;
+      document.getElementById('g').readOnly = true;
+      document.getElementById('h').readOnly = true;
+      (document.getElementById("D")).style.border = "solid #0c352d 3px";
+      (document.getElementById("D")).style.borderRadius = "5px";
+    }
+
+
+  });
 </script>
 
 {% endblock %}
