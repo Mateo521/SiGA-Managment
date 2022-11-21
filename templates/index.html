@@ -4,65 +4,318 @@ Inicio
 {% endblock %}
 
 {% block content %}
-<div id="ww_aecdb6e9f3a94" v='1.3' loc='id'
-    a='{"t":"responsive","lang":"es","ids":["wl6235"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#00796B","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#FFFFFF","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#0000000a","sl_tof":"7"}'>
-    Weather for the Following Location: <a href="https://2ua.org/arg/san_luis/map/" id="ww_aecdb6e9f3a94_u"
-        target="_blank">San Luis map, Argentina</a></div>
+
 <script async src="https://app1.weatherwidget.org/js/?id=ww_aecdb6e9f3a94"></script>
 
+<div class="content-0">
+    <div class="connn">
 
-<dl>
-    <dt> 1. Sistema de administración web : </dt>
-    <dd>1.1. Control de recaudación diaria/mensual
-    <dd>
-    <dd>1.2. Registro de auditoria de usuarios
-    <dd>
-    <dt> 2. Control de Usuarios</dt>
-    <dd> 2.1. Alta y Bajas de usuarios
-    <dd>
-    <dd> 2.2. Control de privilegios de usuarios(cajeros, encargado, administrador)
-    <dd>
-    <dt> 3. Administración de tarifas</dt>
-    <dd> 3.1. Carga y modificación de tarifas para acampantes:
-    <dd>
-    <dd> 3.1.1.Precio por pasar el día
-    <dd>
-    <dd> 3.1.2.Precio por acampar
-    <dd>
+        <div id="ww_aecdb6e9f3a94" v='1.3' loc='id'
+            a='{"t":"responsive","lang":"es","ids":["wl6235"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#00796B","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#FFFFFF","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#0000000a","sl_tof":"7"}'>
+            Weather for the Following Location: <a href="https://2ua.org/arg/san_luis/map/" id="ww_aecdb6e9f3a94_u"
+                target="_blank">San Luis map, Argentina</a></div>
 
-</dl>
+        <!--        <img src="https://i.ibb.co/b3cb09h/E-13.jpg" alt=""
+            style="width: 100%; height: 200px; object-fit: cover; object-position: center;">
+ -->
 
-<h1>Informe Actualizado:</h1>
-<div class="info-1">
-    <div>
-        <h3>Precio por pasar el día</h3>
-        <ul>
-            <li>Alumnos: ${{tarifa[0][5]}}</li>
-            <li>Aportantes: ${{tarifa[0][4]}}</li>
-            <li>Particulares: ${{tarifa[0][0]}}</li>
-        </ul>
+        <h2 style="text-align: center; ">TARIFAS</h2>
+        <!-- 
+            <div
+                style="display: grid; grid-template-columns:repeat(7,1fr);     align-items: center; justify-items: center;">
+                <p class="titles">ID</p>
+                <p class="titles">USUARIO</p>
+                <p class="titles">RETIROS</p>
+                <p class="titles">TOTAL RECAUDADO</p>
+                <p class="titles">USUARIOS</p>
+                <p class="titles">FECHA Y HORA DE CIERRE</p>
+                <p class="titles">TOTAL EN CAJA AL CIERRE</p>
+
+            </div>
+             -->
+
+
+
+
+        <div class="info-1">
+            <div class="cardds">
+                <div class="icons-card">
+                    <img src="/static/img/icons/money circle.svg" alt="" width="25px">
+                    <h3>Precio por pasar el día</h3>
+                </div>
+
+                <div>
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255); ">
+                        <p> Alumnos:</p>
+
+                        <p> ${{tarifa[0][5]}}</p>
+                    </div>
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255);">
+                        <p> Aportantes:</p>
+                        <p> ${{tarifa[0][4]}}</p>
+                    </div>
+                    <div class="tarifas_c">
+                        <p> Particulares:</p>
+                        <p>${{tarifa[0][0]}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cardds">
+                <div class="icons-card">
+                    <img src="/static/img/icons/money circle.svg" alt="" width="25px">
+                    <h3>Precio por acampar</h3>
+                </div>
+
+
+                <div>
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255); ">
+                        <p> Alumnos:</p>
+                        <p> ${{tarifa[0][2]}}</p>
+                    </div>
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255); ">
+                        <p> Aportantes:</p>
+                        <p> ${{tarifa[0][3]}}</p>
+                    </div>
+                    <div class="tarifas_c">
+                        <p> Particulares:</p>
+                        <p> ${{tarifa[0][1]}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cardds">
+
+                <div class="icons-card">
+                    <img src="/static/img/icons/money circle.svg" alt="" width="25px">
+                    <h3>Precio de cabañas</h3>
+                </div>
+                <div>
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255); ">
+                        <p> Aportantes:</p>
+                        <p> ${{tarifa[0][8]}}</p>
+                        </li>
+                    </div>
+                    <div class="tarifas_c">
+                        <p> No aportantes:</p>
+                        <p>${{tarifa[0][11]}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cardds">
+
+                <div class="icons-card">
+                    <img src="/static/img/icons/money circle.svg" alt="" width="25px">
+                    <h3>Invitados</h3>
+                </div>
+                <div>
+
+                    <div class="tarifas_c" style="border-bottom: 2px solid rgb(255, 255, 255); ">
+                        <p> Acampantes</p>
+                        <p>${{tarifa[0][10]}}</p>
+                    </div>
+
+                    <div class="tarifas_c">
+                        <p>No Acampantes</p>
+                        <p>${{tarifa[0][9]}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; ">CIERRE DE CAJAS</h2>
+        <div class="paginate" id="tabla-pc">
+           
+
+
+
+
+            <div
+                style="display: grid; grid-template-columns:repeat(6,1fr);  justify-items: center;    align-items: center; color: white;">
+
+                <p class="titles">USUARIO</p>
+                <p class="titles">RETIROS</p>
+                <p class="titles">TOTAL RECAUDADO</p>
+                <p class="titles">FECHA Y HORA DE ABERTURA</p>
+                <p class="titles">FECHA Y HORA DE CIERRE</p>
+                <p class="titles">TOTAL EN CAJA AL CIERRE</p>
+
+            </div>
+            <div class="items">
+                {%for row in caja_c %}
+
+                <div class="tablaCajas" style="color: white;">
+
+                    <p>{{row[1]}}</p>
+                    <p>${{row[2]}}</p>
+                    <p>${{row[3]}}</p>
+                    <p>{{row[4]}}</p>
+                    <p>{{row[5]}}</p>
+                    <p>${{row[6]}}</p>
+                </div>
+                {%endfor %}
+            </div>
+            <div class="pager">
+                <a style="cursor: pointer;">
+                    <div class="firstPage">&laquo;</div>
+                    <div class="previousPage">&lsaquo;</div>
+                    <div class="pageNumbers"></div>
+                    <div class="nextPage">&rsaquo;</div>
+                    <div class="lastPage">&raquo;</div>
+                </a>
+            </div>
+        </div>
+
     </div>
-    <div>
-        <h3>Precio por acampar</h3>
-        <ul>
-            <li>Alumnos: ${{tarifa[0][2]}}</li>
-            <li>Aportantes: ${{tarifa[0][3]}}</li>
-            <li>Particulares: ${{tarifa[0][1]}}</li>
-        </ul>
-    </div>
-    <div>
-        <h3>Cantidad de personas que estan actualmente en el Camping:</h3>
-        {%for i in cantidadacm %}
-        <p>Acampantes: {{i[0]}}</p>
-        {%endfor%}
-        {%for i in cantidadd %}
-        <p>No Acampantes: {{i[0]}}</p>
-        {%endfor%}
-    </div>
-    <h3>Cambios hechos hasta ahora: {{data[0][0]}}</h3>
 
+    <section class="content-2" id="item">
+        <div class="contenido">
+            <div style="display: flex; justify-content:space-between; align-items: center   ;">
+                <h3>Actividades</h3>
+                <a href="/registros"> Ver más</a>
+            </div>
+            {%for row in range(0,6) %}
+            <div class="divs">
+                <!--    <span>🟢</span> -->
+                <img class="imgss" src="/static/img/user.svg" alt=""
+                    style="width: 50px; height:50px; border-radius:5px; object-fit: cover;">
+                <div>
+                    <p style="margin:0; color: #fbff00a1;">{{data[row][1]}}</p>
+                    <div>
+                        <p style="margin:0;">{{data[row][2]}}</p>
+                        <p class="fecha" style="margin:0;font-size: 11px; color: grey;">{{data[row][3]}}</p>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+
+
+            <div>
+                <p style="font-size: 12px;">🟢 Vigente actualmente en el camping</p>
+                <p style="font-size: 12px;">🔴 No vigente actualmente en el camping</p>
+                <h3>⛺ Cantidad de personas que estan actualmente en el Camping:</h3>
+                {%for i in cantidadacm %}
+                <p>Acampantes: {{i[0]}}</p>
+                {%endfor%}
+                {%for i in cantidadd %}
+                <p>No Acampantes: {{i[0]}}</p>
+                {%endfor%}
+            </div>
+            <h3>Total de ingresantes del año: {{data[0][0]}}</h3>
+
+        </div>
+    </section>
 </div>
 
+<style>
+    .active{
+        color: white;
+    }
+    .icons-card {
+        display: flex;
+        gap: 5px;
+    }
+
+    .icons-card img {
+        width: 25px;
+        filter: invert(85%) sepia(100%) saturate(0%) hue-rotate(338deg) brightness(109%) contrast(101%);
+
+    }
+
+    .tarifas_c {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    .cardds {
+        padding: 15px;
+    }
+
+    .cardds p {
+        margin: 0;
+    }
+
+    .tablaCajas {
+        margin: 0;
+        justify-items: center;
+        padding: 15px 0;
+        border-bottom: 2px grey solid;
+        grid-template-columns: repeat(6, 1fr) !important;
+    }
+
+    .tablaCajas:hover {
+        background-color: rgb(25, 70, 55);
+    }
+
+    .titles {
+        margin: 0;
+    }
+
+    .paginate {
+
+    background-color: #436651;
+
+        /*
+        padding: 15px;
+        margin: 15px;
+        border-radius: 10px;
+    */
+    }
+</style>
+
+<script>
 
 
+
+    $(document).ready(function () {
+
+        var r = $('#item .divs').length
+        //   console.log(r)
+        for (i = 0; i < r; i++) {
+
+            var l = document.getElementsByClassName("fecha")[i].innerHTML;
+
+            if (l == getDate()) {
+
+                const itm = document.getElementById("item");
+
+                var span = document.createElement('span');
+                span.textContent = "🟢"
+                span.style.fontSize = "11px";
+
+                itm.getElementsByClassName("divs")[i].prepend(span);
+
+            }
+            else {
+
+                const itm = document.getElementById("item");
+                var span = document.createElement('span');
+                span.textContent = "🔴"
+                span.style.fontSize = "11px";
+
+                itm.getElementsByClassName("divs")[i].prepend(span);
+
+            }
+
+        }
+
+
+    });
+
+    function getDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        return today
+
+    }
+</script>
 {% endblock %}

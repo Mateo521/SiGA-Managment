@@ -5,34 +5,152 @@ registros
 
 {% block content %}
 
-<div class="paginate">
-	<div class="items">
-		{% for row in data %}<div>
-			<div class="card">
-				<div>
-					<p class="id-">ID : {{row[0]}}</p>
-				</div>
-				<div>
-					<h2>{{row[1]}}:</h2>
-					<p>{{row[4]}} - {{row[3]}}</p>
-				</div>
-				<div>
-					<p><b> {{row[2]}} </b></p>
-				</div>
-			</div>
-		</div>{% endfor %}
 
-	</div>
+    <div class="paginate" style="padding:15px ;">
+        <div style="text-align: center;">
+            <h2 style="color: white;">Registros de auditoría:</h2>
+            <p style="color: white;">consulta los ultimos movimientos hechos por usuarios encargados del camping</p>
+        </div>
 
 
-	<div class="pager">
-		<a style="cursor: pointer;">
-			<div class="firstPage">&laquo;</div>
-			<div class="previousPage">&lsaquo;</div>
-			<div class="pageNumbers"></div>
-			<div class="nextPage">&rsaquo;</div>
-			<div class="lastPage">&raquo;</div>
-	</div>
-</div>
+
+        <div
+            style="display: grid; grid-template-columns:repeat(3,1fr);     align-items: center; justify-items: center;">
+            <p class="titles">USUARIO</p>
+            <p class="titles">COMENTARIO</p>
+            <p class="titles">FECHA Y HORA</p>
+
+
+        </div>
+        <div class="items" id="item">
+            {% for row in data %}
+            <div class="tablaCajas"
+                style="padding: 15px 0; border-radius: 5px; justify-items: center; grid-template-columns: repeat(3, 1fr); background-image:url(https://images.squarespace-cdn.com/content/v1/615c9b9b37a67a42b6d2d7bb/1644520734428-ZEBSDC9B1N5H3KTC6LBD/Paper-texture-christinemylinh-pale.jpg);">
+                <div style="display: flex; gap:7px; align-items: center;">
+                    <img src="/static/img/user.svg"
+                        style="width: 35px; height:35px; border-radius: 50%; object-fit: cover;" alt="">
+                    <div>
+                        <p>{{row[1]}}</p>
+                        <p style="font-size:11px; color:grey;">2664123456</p>
+                    </div>
+
+                </div>
+
+                <p class="comentario">{{row[2]}}</p>
+                <div style="display: flex; flex-direction:column; justify-content:center; align-items: center;">
+                    <p style="color:#048c2c ; " class="fecha">{{row[3]}}</p>
+                    <p>{{row[4]}}</p>
+                </div>
+            </div>
+            {%endfor %}
+        </div>
+        <div class="pager">
+            <a style="cursor: pointer;">
+                <div class="firstPage">&laquo;</div>
+                <div class="previousPage">&lsaquo;</div>
+                <div class="pageNumbers"></div>
+                <div class="nextPage">&rsaquo;</div>
+                <div class="lastPage">&raquo;</div>
+            </a>
+        </div>
+    </div>
+
+
+
+
+<style>
+    .pager {
+        color: white;
+    }
+
+    .titles {
+        color: white;
+    }
+.active {
+    color: white !important;
+}
+
+    .content {
+        display: block !important;
+        padding: 0 !important;
+    }
+    .layout{
+        background-color: #417859;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 800'%3E%3Cdefs%3E%3CradialGradient id='a' cx='0' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23498560'/%3E%3Cstop offset='1' stop-color='%23498560' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='b' cx='1200' cy='800' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%2322634c'/%3E%3Cstop offset='1' stop-color='%2322634c' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='c' cx='600' cy='0' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23287253'/%3E%3Cstop offset='1' stop-color='%23287253' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='d' cx='600' cy='800' r='600' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23417859'/%3E%3Cstop offset='1' stop-color='%23417859' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='e' cx='0' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23519166'/%3E%3Cstop offset='1' stop-color='%23519166' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='f' cx='1200' cy='0' r='800' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%230D443C'/%3E%3Cstop offset='1' stop-color='%230D443C' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='1200' height='800'/%3E%3Crect fill='url(%23b)' width='1200' height='800'/%3E%3Crect fill='url(%23c)' width='1200' height='800'/%3E%3Crect fill='url(%23d)' width='1200' height='800'/%3E%3Crect fill='url(%23e)' width='1200' height='800'/%3E%3Crect fill='url(%23f)' width='1200' height='800'/%3E%3C/svg%3E");
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+ 
+
+   
+
+    .comentario {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        var r = $('#item .tablaCajas').length
+
+        for (i = 0; i < r; i++) {
+
+            var l = document.getElementsByClassName("fecha")[i].innerHTML;
+
+            if (l == getDate()) {
+
+                const itm = document.getElementById("item");
+
+                var span = document.createElement('span');
+                span.textContent = "🟢"
+                span.style.fontSize = "11px";
+
+                itm.getElementsByClassName("comentario")[i].prepend(span);
+
+            }
+            else {
+
+                const itm = document.getElementById("item");
+                var span = document.createElement('span');
+                span.textContent = "🔴"
+                span.style.fontSize = "11px";
+
+                itm.getElementsByClassName("comentario")[i].prepend(span);
+
+            }
+
+        }
+
+
+    });
+
+
+    /*
+        $(window).load(function () {
+            getDate();
+        });
+        */
+    function getDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        return today
+
+    }
+</script>
 
 {% endblock %}

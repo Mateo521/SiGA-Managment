@@ -5,7 +5,7 @@ from flask_login import LoginManager,login_user,logout_user,login_required
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash
 from datetime import datetime
-
+ 
 
 #MODELS:
 from models.ModelUser import ModelUser
@@ -14,19 +14,20 @@ from models.ModelUser import ModelUser
 from models.entities.User import User
 
 
-
 app = Flask(__name__)
 csrf=CSRFProtect(app)
-app.config['TESTING'] = False
+app.config['TESTING'] = False 
 
-app.config["SESSION_PERMANENT"] = False
+app.secret_key = "3ckoKxOIJG_4?Ffda9hjps*%#$0c"
+
+app.config["SESSION_PERMANENT"] = False 
 app.config["SESSION_TYPE"] = "filesystem"
 
 
 db = MySQL(app)
 login_manager_app = LoginManager(app)
-
-
+   
+ 
 @login_manager_app.user_loader
 def loaduser(id):
     return ModelUser.get_by_id(db,id)
@@ -45,7 +46,7 @@ def index():
 
 def registros_db(a = 0, fechas = 0, usuarios = 0):
     cur = db.connection.cursor()
-    print(fechas)
+    
     if(a == 0 or fechas == 0 or fechas == 0):
         return 0
     if(a == 1):
@@ -73,8 +74,24 @@ def registros_db(a = 0, fechas = 0, usuarios = 0):
         cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo aportante acampante";',([fechas]))
     if(a == 12):
         cur.execute('SELECT count(*) FROM registros WHERE fecha = (%s) AND comentario = "ha ingresado un nuevo aportante por el dia";',([fechas]))
-    
+    if(a == 13):
+        cur.execute('SELECT * FROM registros WHERE fecha = (%s) AND MID(comentario, 16,10) = "familiares";',([fechas]))
+    if(a == 14):
+        cur.execute('SELECT * FROM registros WHERE fecha = (%s) AND MID(comentario, 16,10) = "familiares" AND usuario = (%s);',(fechas,usuarios))
 
+   
+   
+   
+   
+    if(a == 15):
+        cur.execute('SELECT count(*) from registros where fecha = (%s) AND MID(comentario,23,18) = "invitado acampante"',([fechas]))
+    if(a == 16):
+        cur.execute('SELECT count(*) from registros where fecha = (%s) AND MID(comentario,23,19) = "invitado por el dia"',([fechas]))
+    if(a == 17):
+        cur.execute('SELECT count(*) from registros where fecha = (%s) AND MID(comentario,23,18) = "invitado acampante" AND usuario = (%s)',(fechas, usuarios))
+    if(a == 18):
+        cur.execute('SELECT count(*) from registros where fecha = (%s) AND MID(comentario,23,19) = "invitado por el dia" AND usuario = (%s)',(fechas, usuarios))
+ 
      #   aportante_noacampante = registros_db(6,fecha,usuario)
    
     return cur.fetchall()
@@ -95,7 +112,7 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
     if(a == 3):
         cur.execute("SELECT * FROM usuarios_web")
     if(a == 4): 
-        cur.execute("SELECT * FROM usuarios")
+        cur.execute("SELECT * FROM usuarios") 
     if(a == 21):
         cur.execute("SELECT privilegios FROM usuarios WHERE usuario  = (%s);",[usuarios])
     if(a == 17):
@@ -112,7 +129,7 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
         cur.execute("SELECT * FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s) ORDER BY id DESC", [fechas])
     if(a==16):
         cur.execute('SELECT * FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s);',[fechas])
-    if(a == 7):
+    if(a == 7): 
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fecha_actual])
     if(a == 8):
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE MID(fecha_cierre, 6, 2) = (%s);',[mes_actual])
@@ -122,8 +139,8 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
          cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s);',[fechas])
     if(a==20):
         cur.execute('SELECT sum(total_recaudado) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre, 1, 10) = (%s) AND usuario = (%s)',(fechas,usuarios))
-
-    if(a==11):
+ 
+    if(a==11): 
          cur.execute('SELECT count(*) FROM egreso WHERE fecha_ingreso = (%s);',[fechas])
     if(a==12):
          cur.execute('SELECT count(*) FROM ingreso_diario WHERE fecha_ingreso = (%s);',[fechas])
@@ -131,11 +148,15 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
          cur.execute('SELECT count(*) FROM egreso WHERE fecha_egreso = (%s);',[fechas])
     if(a==14):
          cur.execute('SELECT count(*) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s);',[fechas])
+    if(a==23):
+         cur.execute('SELECT count(*) FROM caja_cerradas WHERE SUBSTRING(fecha_cierre,1,10) = (%s) AND usuario = (%s)',(fechas,usuarios))
+    if(a==24):
+         cur.execute('SELECT count(*) FROM caja_abierta WHERE SUBSTRING(fecha_abertura,1,10) = (%s) AND usuario = (%s)',(fechas,usuarios))
     if(a==15):
          cur.execute('SELECT count(*) FROM caja_cerradas WHERE SUBSTRING(fecha_abertura, 1, 10) = (%s);',[fechas])
 
     return cur.fetchall()
-
+    
 
 
 @app.route('/home')
@@ -143,7 +164,7 @@ def conector(a=0 , fechas = 0 , usuarios = 0):
 def home():
 
 
-    return render_template('index.html', data = conector(1), tarifa = conector(2), cantidadacm = conector(17), cantidadd = conector(18))
+    return render_template('index.html', data = conector(1), tarifa = conector(2), cantidadacm = conector(17), cantidadd = conector(18), caja_c = conector(16,datetime.today().strftime('%Y-%m-%d')))
 
 @app.route('/logout')
 def logout():
@@ -163,7 +184,7 @@ def register():
         cur.execute('INSERT INTO usuarios_web (usuario, nombrecomp, contrasenia) VALUES (%s,%s,%s)' , (usuario,nombrecomp,generate_password_hash(contrasenia)))
         db.connection.commit()
     return render_template("register.html" ,data = conector(3))
-
+ 
 
 @app.route('/registros')
 @login_required
@@ -269,7 +290,7 @@ def tarifas_i():
 
         cur = db.connection.cursor()
 
-        tarifas_ac = request.form["invitados_ac"]
+        tarifas_ac = request.form["invitados_ac"] 
         tarifas_nac = request.form["invitados_nac"]
         if(tarifas_ac!=""):
             cur.execute("UPDATE tarifas SET invitados_acampar = (%s) WHERE id = '8'" , [tarifas_ac])
@@ -322,6 +343,18 @@ def recaudaciones():
 
     aportante_acampante_tot = []
     aportante_noacampante_tot = []
+
+    familiares = []
+    familiares_usuario = []
+
+    invitados_acampante_total = []
+    invitados_noacampante_total = []
+
+    invitados_acampante_u = []
+    invitados_noacampante_u = []
+    
+    caja_abierta_usuario = []
+    caja_cerrada_usuario = []
     if request.method =="POST":
         fecha = request.form["fechas"]
         usuario = request.form["usuario"]
@@ -356,6 +389,23 @@ def recaudaciones():
 
         cajas_cerradas_por_fecha = conector(22, fecha)
 
+        
+
+        caja_cerrada_usuario = conector(23,fecha,usuario)
+        caja_abierta_usuario = conector(24,fecha,usuario)
+
+        familiares = registros_db(13, fecha) 
+        familiares_usuario= registros_db(14,fecha,usuario)
+
+        invitados_acampante_total = registros_db(15,fecha)
+
+        invitados_noacampante_total = registros_db(16,fecha)
+
+        invitados_acampante_u = registros_db(17,fecha, usuario)
+
+        invitados_noacampante_u = registros_db(18,fecha, usuario)
+
+        
     return render_template("recaudaciones.html", 
     fecha = fecha , caja_a = conector(5) , caja_c = conector(6)
      , r_dia = conector(7) , r_mes = conector(8) , r_anio = conector(9) 
@@ -373,10 +423,18 @@ def recaudaciones():
      ,b5 =  alumno_noacampante_tot
      ,b6 =  aportante_acampante_tot 
      ,b7 =  aportante_noacampante_tot 
+     , familiaress = familiares
+     , familiaress_u = familiares_usuario
+     ,cajacerradausuario = caja_cerrada_usuario
+     ,cajaabiertausuario = caja_abierta_usuario
+     ,invitados_acampante_t = invitados_acampante_total
+     ,invitados_noacampante_t = invitados_noacampante_total 
+     , invitados_acampante_user =  invitados_acampante_u
+     ,invitados_noacampante_user = invitados_noacampante_u
   #   ,cantidadacm = conector(17), cantidadd = conector(18)
-     ) 
+     )
 
-  
+
 @app.route('/eliminar' , methods = ['GET', 'POST'])
 def eliminar():
 

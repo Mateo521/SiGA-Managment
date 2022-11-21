@@ -9,6 +9,7 @@
 
 		{% endblock %}
 	</title>
+	<link rel="shortcut icon" href="/static/img/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -218,7 +219,8 @@
 												<ul>
 													<li class="menu-item">
 														<a href="/recaudaciones?r=fecha_de_cierre">
-															<span class="menu-title">Por fecha de cierre y usuario</span>
+															<span class="menu-title">Por fecha de cierre y
+																usuario</span>
 														</a>
 													</li>
 													<li class="menu-item">
@@ -309,17 +311,17 @@
 				<a id="btn-toggle" href="#" class="sidebar-toggler break-point-lg">
 					<i class="ri-menu-line ri-xl" style="color:white;"></i>
 				</a>
-
 				<h3>Hola, {{current_user.fullname}}</h3>
 			</header>
 
 
 
-
+			{% block content %}
 			<main class="content">
-				{% block content %}
-				{% endblock %}
+
+
 			</main>
+			{% endblock %}
 			<div class="overlay"></div>
 		</div>
 	</div>
