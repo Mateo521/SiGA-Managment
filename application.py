@@ -17,7 +17,7 @@ from models.entities.User import User
 app = Flask(__name__)
 csrf=CSRFProtect(app)
 app.config['TESTING'] = False 
-
+            
 app.secret_key = "3ckoKxOIJG_4?Ffda9hjps*%#$0c"
 
 app.config["SESSION_PERMANENT"] = False 

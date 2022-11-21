@@ -1381,7 +1381,7 @@ td {
 .precio-div {
 	display: flex;
 	align-items: center;
-	
+
 }
 
 .tablaCajas {
@@ -1515,11 +1515,11 @@ a, a:hover, a:focus, a:active {
 }
 
 .content-2 {
-	color: whitesmoke;
-	/*	background-image:url(https://images.squarespace-cdn.com/content/v1/615c9b9b37a67a42b6d2d7bb/1644520734428-ZEBSDC9B1N5H3KTC6LBD/Paper-texture-christinemylinh-pale.jpg); 
-*/
-	background: rgb(20, 42, 40);
-	background: linear-gradient(180deg, rgba(20, 42, 40, 1) 0%, rgba(24, 34, 28, 1) 100%);
+
+	background-image: url(https://images.squarespace-cdn.com/content/v1/615c9b9b37a67a42b6d2d7bb/1644520734428-ZEBSDC9B1N5H3KTC6LBD/Paper-texture-christinemylinh-pale.jpg);
+	background-size: cover;
+
+
 	/*
 	padding: 15px;
 	*/
@@ -1542,13 +1542,17 @@ a, a:hover, a:focus, a:active {
 }
 
 .divs {
+	padding: 10px; 
+
 	display: flex;
 	gap: 10px;
 	align-items: center;
 	margin: 15px 0;
+
 }
 
 .contenido {
+	border-left: 2px solid #436651;
 	position: fixed;
 	padding: 10px 25px 55px 15px;
 	margin-bottom: 30px;
